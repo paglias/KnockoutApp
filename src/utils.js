@@ -31,9 +31,9 @@
 			return destination;
 		},
 
-		// A simple method to extend a 'class' using newClass = Class.extend(), it is based on BackboneJS's one.
-		// No parameter can be passed to it, copy instance and static properties.
-		// Support __super__ which is a reference to the parent class prototype.
+		// A simple method to extend a 'class' using newClass = Class.extend(), it is based on BackboneJS's one
+		// No parameter can be passed to it, copy instance and static properties
+		// Support __super__ which is a reference to the parent class prototype
 		extendClass: function (protoProps, staticProps) {
 			var parent = this,
 					ctor = function(){},

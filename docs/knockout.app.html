@@ -27,9 +27,9 @@ To extend normal objects use ko.utils.extend</p>             </td>             <
         <span class="p">}</span>
       <span class="p">}</span>
       <span class="k">return</span> <span class="nx">destination</span><span class="p">;</span>
-    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>A simple method to extend a 'class' using newClass = Class.extend(), it is based on BackboneJS's one.
-No parameter can be passed to it, copy instance and static properties.
-Support <strong>super</strong> which is a reference to the parent class prototype.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">extendClass</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">protoProps</span><span class="p">,</span> <span class="nx">staticProps</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>A simple method to extend a 'class' using newClass = Class.extend(), it is based on BackboneJS's one
+No parameter can be passed to it, copy instance and static properties
+Support <strong>super</strong> which is a reference to the parent class prototype</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">extendClass</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">protoProps</span><span class="p">,</span> <span class="nx">staticProps</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">parent</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
           <span class="nx">ctor</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){},</span>
           <span class="nx">child</span><span class="p">;</span>
