@@ -1,12 +1,19 @@
 	// Used to sync models to the server, it can be overriden to support, for example, HTML5 localStorage
-	// Require a method (fetch, create, update, destroy)and  a model (or a collection)
-	// The third parameter is used to pass options to id
-	KnockoutApp.Sync = function(method, model, options){
+	// Requires two parameters:
+	//
+	// - a method (fetch, create, update or destroy)
+	//
+	// - a model or a collection
+	//
+	// Using the third, optional, parameter you can pass options to it (in that case options for the Ajax call)
+	KnockoutApp.Sync = function(method, model, _options){
 
-		// Throw an error if jQuery is not loaded
+		// Ensure jQuery is loaded
 		if(typeof root.$ === 'undefined') throw "jQuery is necessary to make Ajax calls"
 
-		var params = {};
+		var params = {},
+				options = _options || {};
+
 		param.dataType = 'json';
 
 		//Get the url of the model/collection (model.url or model.url())
@@ -39,6 +46,6 @@
 				break;
 		}
 		
-		// Returns an Ajax call using jQuery
+		// Make and return an Ajax call merging the *options* object passed as the third parameter with the *params* object
 		return root.$.ajax(ko.utils.extend(params, options));
 	};	

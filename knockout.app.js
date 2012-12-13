@@ -4,14 +4,14 @@
 
 (function(){
 
-	// Set a reference to the 'window' object and to KnockoutJS
+	// Set a reference to the 'window' object and to KnockoutJS' 'ko' object
 	var root = this,			
 			ko = root.ko;
 
-	// Knockout.js must be loaded
-	if(typeof ko === 'undefined') throw "knockoutJS is not loaded";
+	// Ensure KnockoutJS is loaded
+	if(typeof ko === 'undefined') throw "knockoutJS must be loaded to use KnockoutApp";
 
-	// Define a namespace
+	// Create a namespace
 	var KnockoutApp = root.KnockoutApp = {};
 
 	// KnockoutApp's version
@@ -91,28 +91,33 @@
 
 	};
 
-	// A model
+	// This is the base Model class in KnockoutApp
 	var Model = KnockoutApp.Model = function(attributes, collection){
 
-		// Define an id property
+		// 'id' is an observable property, initially set to 'false'
 		this.id = ko.observable(false);
 
-		// An object to store model's attributes
+		// The model stores its data inside this object
 		this.attributes = {};
 
+		// If an 'attributes' object is passed as a parameter:
 		if(attributes){
 
-			// If an 'id' property is passed to the Model, use it
+			// In case it contains an 'id' property set **this.id()** value to it and delete it from the attributes object 
 			if(attributes.id){
 				this.id(attributes.id);
 				delete attributes.id;
 			}
 
-			// Merge the attributes passed to the Model with the default attributes and sets them in the Model
+			// Merge the attributes passed as parameters with the default attributes stored inside **this.defaultAttributes()**
+			//
+			// Using **Utils.extendObjKnockout** ensured that observable properties inside *this.defaultAttributes()*
+			// are correctly set into *this.attributes*
 			this.attributes = Utils.extendObjKnockout(this.defaultAttributes(), attributes);
 		}
 
-		// If the model is inside a collection, add a reference to it
+		// This function allows to be passed, as the second parameter, a reference to a **Collection**.
+		// In that case a reference to the collection is set as *this.collection*
 		if(collection) this.collection = collection;
 
 		// Detect if the model has been created on the server by checking if the 'id' property is defined
@@ -121,6 +126,8 @@
 		}, this);
 
 		// Instead of overriding the function constructor use the initialize function to execute custom code on model creation
+		// Knockout's observable properties can't be defined in the class prototype 
+		// so this is the perfect place to use them.
 		if(this.initialize) this.initialize.apply(this, arguments);
 
 	};
@@ -130,6 +137,7 @@
 
 		// An object with the default attributes for the model 
 		// It must be a function because no 'clone' method has been implemented so far, will be fixed in future versions
+		// Here you can also use observable properties.
 		defaultAttributes: function(){
 			return {};
 		},
@@ -141,12 +149,13 @@
 			return base + (base[base.length-1] === '/' ? '' : '/') + this.id();
 		},
 
-    // Validation method, should return TRUE if the model is validated
+    // Validation method, should return TRUE if the model is valid
 		validate: function(){
 			return true;
 		},
 
 		// Fetch the model on the server and replace its attributes with the one fetched
+		// Options for the Ajax call can be passed as a parameter
 		fetch: function(_options){
 			var self = this,
 					options = {};
@@ -166,7 +175,8 @@
 		},
 
 		// Save the model on the server.
-		// It will be created if the 'id' property is not defined, otherwise it will be updated
+		// If this.isNew() returns true it will be created, otherwise it will be updated
+		// Options for the Ajax call can be passed as a parameter
 		save: function(_options){
 			if(this.validate() !== true) return false;
 
@@ -187,7 +197,8 @@
 			return (this.sync || (this.collection && this.collection.sync) || KnockoutApp.Sync).call(this, method, this, options);
 		},
 
-		// Destroy the model on the server and remove it from its collection (if present)
+		// Destroy the model on the server and remove it from its collection (if exists)
+		// Options for the Ajax call can be passed as a parameter
 		destroy: function(_options){
 			if(this.isNew() && this.collection){
 				this.collection.models.remove(this);
@@ -220,16 +231,18 @@
 	// A collection stores models in an arrayObservable and provide methods for adding, removing, fetching... models
 	var Collection = KnockoutApp.Collection = function(model){
 
-		// If no model is passed to the Collection throw an error
+		// A model must be passed to the Collection as the first parameter
 		if(!model) throw "A model must be provided for a collection";
 
-		// Set the model
+		// Set a reference to the model
 		this.model = model;
 
-		// An array observable to store all the models
+		// Create an array observable to store all the models
 		this.models = ko.observableArray();
 
 		// Instead of overriding the function constructor use the initialize function to execute custom code on collection creation
+		// Knockout's observable properties can't be defined in the class prototype 
+		// so this is the perfect place to use them.
 		if(this.initialize) this.initialize.apply(this, arguments);
 
 	};
@@ -238,6 +251,7 @@
 	ko.utils.extend(Collection.prototype, {
 
 		// Fetch the models on the server and add them to the collection, this.url must be defined either as a string or a function
+		// Options for the Ajax call can be passed as a parameter
 		fetch: function(_options){
 			var self = this,
 					options = {};
@@ -261,7 +275,8 @@
 			return (this.sync || KnockoutApp.Sync).call(this, 'fetch', this, options); //return?
 		},
 
-		// Add one or more models to collection and optionally create them on the server setting 'create' to 'true'
+		// Add one or more models to collection and optionally create them on the server setting the 'create' parameter to 'true'
+		// It will also add a reference to the collection inside each model
 		add: function(model_s, create){
 			var toAdd = model_s instanceof Array ? model_s : [model_s],
 					self = this;
@@ -274,6 +289,7 @@
 		},
 
 		// Remove one or more models from the colection and destroy them on the server
+		// It simply calls model.destroy() on each model is passed to it
 		remove: function(model_s){
 			var toRemove = model_s instanceof Array ? model_s : [model_s];
 
@@ -294,14 +310,21 @@
 		}
 	});
 	// Used to sync models to the server, it can be overriden to support, for example, HTML5 localStorage
-	// Require a method (fetch, create, update, destroy)and  a model (or a collection)
-	// The third parameter is used to pass options to id
-	KnockoutApp.Sync = function(method, model, options){
+	// Requires two parameters:
+	//
+	// - a method (fetch, create, update or destroy)
+	//
+	// - a model or a collection
+	//
+	// Using the third, optional, parameter you can pass options to it (in that case options for the Ajax call)
+	KnockoutApp.Sync = function(method, model, _options){
 
-		// Throw an error if jQuery is not loaded
+		// Ensure jQuery is loaded
 		if(typeof root.$ === 'undefined') throw "jQuery is necessary to make Ajax calls"
 
-		var params = {};
+		var params = {},
+				options = _options || {};
+
 		param.dataType = 'json';
 
 		//Get the url of the model/collection (model.url or model.url())
@@ -334,7 +357,7 @@
 				break;
 		}
 		
-		// Returns an Ajax call using jQuery
+		// Make and return an Ajax call merging the *options* object passed as the third parameter with the *params* object
 		return root.$.ajax(ko.utils.extend(params, options));
 	};	
 	// Give extensibility to models and collections

@@ -1,16 +1,18 @@
 	// A collection stores models in an arrayObservable and provide methods for adding, removing, fetching... models
 	var Collection = KnockoutApp.Collection = function(model){
 
-		// If no model is passed to the Collection throw an error
+		// A model must be passed to the Collection as the first parameter
 		if(!model) throw "A model must be provided for a collection";
 
-		// Set the model
+		// Set a reference to the model
 		this.model = model;
 
-		// An array observable to store all the models
+		// Create an array observable to store all the models
 		this.models = ko.observableArray();
 
 		// Instead of overriding the function constructor use the initialize function to execute custom code on collection creation
+		// Knockout's observable properties can't be defined in the class prototype 
+		// so this is the perfect place to use them.
 		if(this.initialize) this.initialize.apply(this, arguments);
 
 	};
@@ -19,6 +21,7 @@
 	ko.utils.extend(Collection.prototype, {
 
 		// Fetch the models on the server and add them to the collection, this.url must be defined either as a string or a function
+		// Options for the Ajax call can be passed as a parameter
 		fetch: function(_options){
 			var self = this,
 					options = {};
@@ -42,7 +45,8 @@
 			return (this.sync || KnockoutApp.Sync).call(this, 'fetch', this, options); //return?
 		},
 
-		// Add one or more models to collection and optionally create them on the server setting 'create' to 'true'
+		// Add one or more models to collection and optionally create them on the server setting the 'create' parameter to 'true'
+		// It will also add a reference to the collection inside each model
 		add: function(model_s, create){
 			var toAdd = model_s instanceof Array ? model_s : [model_s],
 					self = this;
@@ -55,6 +59,7 @@
 		},
 
 		// Remove one or more models from the colection and destroy them on the server
+		// It simply calls model.destroy() on each model is passed to it
 		remove: function(model_s){
 			var toRemove = model_s instanceof Array ? model_s : [model_s];
 

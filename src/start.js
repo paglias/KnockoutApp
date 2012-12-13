@@ -1,13 +1,13 @@
 (function(){
 
-	// Set a reference to the 'window' object and to KnockoutJS
+	// Set a reference to the 'window' object and to KnockoutJS' 'ko' object
 	var root = this,			
 			ko = root.ko;
 
-	// Knockout.js must be loaded
-	if(typeof ko === 'undefined') throw "knockoutJS is not loaded";
+	// Ensure KnockoutJS is loaded
+	if(typeof ko === 'undefined') throw "knockoutJS must be loaded to use KnockoutApp";
 
-	// Define a namespace
+	// Create a namespace
 	var KnockoutApp = root.KnockoutApp = {};
 
 	// KnockoutApp's version

@@ -1,25 +1,30 @@
-	// A model
+	// This is the base Model class in KnockoutApp
 	var Model = KnockoutApp.Model = function(attributes, collection){
 
-		// Define an id property
+		// 'id' is an observable property, initially set to 'false'
 		this.id = ko.observable(false);
 
-		// An object to store model's attributes
+		// The model stores its data inside this object
 		this.attributes = {};
 
+		// If an 'attributes' object is passed as a parameter:
 		if(attributes){
 
-			// If an 'id' property is passed to the Model, use it
+			// In case it contains an 'id' property set **this.id()** value to it and delete it from the attributes object 
 			if(attributes.id){
 				this.id(attributes.id);
 				delete attributes.id;
 			}
 
-			// Merge the attributes passed to the Model with the default attributes and sets them in the Model
+			// Merge the attributes passed as parameters with the default attributes stored inside **this.defaultAttributes()**
+			//
+			// Using **Utils.extendObjKnockout** ensured that observable properties inside *this.defaultAttributes()*
+			// are correctly set into *this.attributes*
 			this.attributes = Utils.extendObjKnockout(this.defaultAttributes(), attributes);
 		}
 
-		// If the model is inside a collection, add a reference to it
+		// This function allows to be passed, as the second parameter, a reference to a **Collection**.
+		// In that case a reference to the collection is set as *this.collection*
 		if(collection) this.collection = collection;
 
 		// Detect if the model has been created on the server by checking if the 'id' property is defined
@@ -28,6 +33,8 @@
 		}, this);
 
 		// Instead of overriding the function constructor use the initialize function to execute custom code on model creation
+		// Knockout's observable properties can't be defined in the class prototype 
+		// so this is the perfect place to use them.
 		if(this.initialize) this.initialize.apply(this, arguments);
 
 	};
@@ -37,6 +44,7 @@
 
 		// An object with the default attributes for the model 
 		// It must be a function because no 'clone' method has been implemented so far, will be fixed in future versions
+		// Here you can also use observable properties.
 		defaultAttributes: function(){
 			return {};
 		},
@@ -48,12 +56,13 @@
 			return base + (base[base.length-1] === '/' ? '' : '/') + this.id();
 		},
 
-    // Validation method, should return TRUE if the model is validated
+    // Validation method, should return TRUE if the model is valid
 		validate: function(){
 			return true;
 		},
 
 		// Fetch the model on the server and replace its attributes with the one fetched
+		// Options for the Ajax call can be passed as a parameter
 		fetch: function(_options){
 			var self = this,
 					options = {};
@@ -73,7 +82,8 @@
 		},
 
 		// Save the model on the server.
-		// It will be created if the 'id' property is not defined, otherwise it will be updated
+		// If this.isNew() returns true it will be created, otherwise it will be updated
+		// Options for the Ajax call can be passed as a parameter
 		save: function(_options){
 			if(this.validate() !== true) return false;
 
@@ -94,7 +104,8 @@
 			return (this.sync || (this.collection && this.collection.sync) || KnockoutApp.Sync).call(this, method, this, options);
 		},
 
-		// Destroy the model on the server and remove it from its collection (if present)
+		// Destroy the model on the server and remove it from its collection (if exists)
+		// Options for the Ajax call can be passed as a parameter
 		destroy: function(_options){
 			if(this.isNew() && this.collection){
 				this.collection.models.remove(this);
