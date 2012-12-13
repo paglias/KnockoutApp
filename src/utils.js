@@ -1,4 +1,4 @@
-	// An object to store all utils used by KnockoutApp
+	// An object that stores all utils used by KnockoutApp
 	var Utils = KnockoutApp.Utils = {
 
 		// Check if an object is an observable array
@@ -10,7 +10,7 @@
 		// It is used in model constructor to extend the base object with the passed parameters
 		// To extend normal objects use ko.utils.extend
 		extendObjKnockout: function(destination, params){
-			for(var i in params){
+			for(var i in params){ 
 				var param = params[i];
 				if(typeof param === "object" && param !== null && destination[i] && !ko.isWriteableObservable(destination[i])) {
 					Utils.extendObjKnockout(destination[i], param); //use this.appky???
@@ -68,7 +68,7 @@
 		// Errors wrapper, for now it simply log in the console everything is passed as a parameter to it ex. wrapError("an error occurred")
 		wrapError: function(){
 			var args = Array.prototype.slice.call(arguments);
-			console.log("Error", args);
-		}
+			console.log("Error ", args);
+		} 
 
-	};
+	}; 
