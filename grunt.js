@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 			version: '0.1.0',
 			banner: '/*! Knockout App - v<%= meta.version %> - ' +
 				'<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-				'* http://PROJECT_WEBSITE/\n' +
+				'* https://github.com/paglias/KnockoutApp\n' +
 				'* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
 				'Matteo Pagliazzi; Licensed MIT */'
 		},
