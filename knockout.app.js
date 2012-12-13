@@ -24,8 +24,8 @@
 			return ko.isObservable(obj) && obj.destroyAll !== undefined;
 		},
 
-		// Extend an object (destination) with observable properties with a given one (params).
-		// It is used in model constructor to extend the base object with the passed parameters.
+		// Extend an object (destination) with observable properties with a given one (params)
+		// It is used in model constructor to extend the base object with the passed parameters
 		// To extend normal objects use ko.utils.extend
 		extendObjKnockout: function(destination, params){
 			for(var i in params){
