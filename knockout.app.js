@@ -16,7 +16,7 @@
 
 	// KnockoutApp's version
 	KnockoutApp.VERSION = "0.1.0";
-	// An object to store all utils (and also some function that is not reall and helper like the dirtyFlag)
+	// An object to store all utils used by KnockoutApp
 	var Utils = KnockoutApp.Utils = {
 
 		// Check if an object is an observable array
@@ -78,7 +78,7 @@
 			return child;
 		},
 
-		// Return a value either if a function or a property (model.url or model.url())
+		// Return the value provided either if it's a function or a property (model.url or model.url())
 		unwrapValue: function(value){
 			return typeof value === 'function' ? value() : value;
 		},
