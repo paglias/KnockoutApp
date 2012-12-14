@@ -11,4 +11,4 @@
 	var KnockoutApp = root.KnockoutApp = {};
 
 	// KnockoutApp's version
-	KnockoutApp.VERSION = "0.1.0";
+	KnockoutApp.VERSION = "0.1";

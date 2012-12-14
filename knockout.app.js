@@ -1,4 +1,4 @@
-/*! Knockout App - v0.1.0 - 2012-12-13
+/*! Knockout App - v0.1 - 2012-12-14
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2012 Matteo Pagliazzi; Licensed MIT */
 
@@ -15,7 +15,7 @@
 	var KnockoutApp = root.KnockoutApp = {};
 
 	// KnockoutApp's version
-	KnockoutApp.VERSION = "0.1.0";
+	KnockoutApp.VERSION = "0.1";
 	// An object that stores all utils used by KnockoutApp
 	var Utils = KnockoutApp.Utils = {
 
