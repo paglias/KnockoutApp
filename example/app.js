@@ -49,13 +49,11 @@ var TaskListCollection = KnockoutApp.Collection.extend({
 					return task.attributes.done();
 				});
 
-				break;
 			case 'todo':
 				return this.models().filter(function(task) {
 					return !task.attributes.done();
 				});
 
-				break;
 			default:
 				return this.models();
 			}
