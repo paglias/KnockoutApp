@@ -8,7 +8,9 @@ It's heavily inspired to [BackboneJS](http://backbonejs.org) and it's licensed u
 
 Just include *knockout.app.min.js* in your html page to start using it (remember that KnockoutJS in necessary).
 
-**Documentation is coming**, for now give a look to the [annotated source code](http://paglias.net/KnockoutApp/docs/knockout.app.html) and to the [example](http://paglias.net/KnockoutApp/example/)
+You can find documentation [here](https://github.com/paglias/KnockoutApp/blob/master/documentation.md).
+
+Give a look to the [annotated source code](http://paglias.net/KnockoutApp/docs/knockout.app.html) and to the [example](http://paglias.net/KnockoutApp/example/).
 
 #Contributing
 
