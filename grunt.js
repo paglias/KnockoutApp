@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		meta: {
-			version: '0.1',
+			version: '0.2',
 			banner: '/*! Knockout App - v<%= meta.version %> - ' +
 				'<%= grunt.template.today("yyyy-mm-dd") %>\n' +
 				'* https://github.com/paglias/KnockoutApp\n' +
