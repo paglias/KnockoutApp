@@ -10,7 +10,7 @@ Just include *knockout.app.min.js* in your html page to start using it (remember
 
 You can find documentation [here](https://github.com/paglias/KnockoutApp/blob/master/documentation.md).
 
-Give a look to the [annotated source code](http://paglias.net/KnockoutApp/docs/knockout.app.html) and to the [example](http://paglias.net/KnockoutApp/example/).
+Give a look to the [annotated source code](http://paglias.net/KnockoutApp/annotated-source-code/knockout.app.html) and to the [example](http://paglias.net/KnockoutApp/example/).
 
 #Contributing
 

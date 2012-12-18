@@ -28,7 +28,10 @@ module.exports = function(grunt) {
 
     docco: {
     	build: {
-    		src: 'knockout.app.js'
+    		src: 'knockout.app.js',
+    		options: {
+    			output: 'annotated-source-code'
+    		}
     	}
     },
 

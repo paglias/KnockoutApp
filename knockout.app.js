@@ -1,4 +1,4 @@
-/*! Knockout App - v0.1 - 2012-12-14
+/*! Knockout App - v0.1 - 2012-12-18
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2012 Matteo Pagliazzi; Licensed MIT */
 
