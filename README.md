@@ -20,3 +20,6 @@ Contributions are welcome, just send a pull request (it is preferred to target t
 
 For general discussion, features request and bugs report use [Github Issues](https://github.com/paglias/KnockoutApp/issues)
 
+#Credits
+
+A big thank to [BackboneJS](http://backbonejs.org) for the inspiration given to that project (and also for the *extendClass* method that has been taken from it)!
