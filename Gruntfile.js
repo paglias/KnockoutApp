@@ -38,9 +38,13 @@ module.exports = function(grunt) {
 
     watch: {
     	build: {
-    		files: ['src/**/*', 'package.json'],
-    		tasks: 'build'
+    		files: ['src/**/*', 'package.json', 'tests/**/*'],
+    		tasks: ['build', 'qunit']
     	}
+    },
+
+    qunit: {
+    	all: 'http://localhost:8000/tests/index.html'
     }
 
     /*docco: {
@@ -60,9 +64,12 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-qunit');
 
-	// Default task.
+	// Register tasks.
 	grunt.registerTask('build', ['concat', 'uglify']);
-	grunt.registerTask('run', ['build', 'connect:server', 'watch']);
+
+	// Cause an error with multiple server instances but it still works fine
+	grunt.registerTask('run', ['build', 'connect:server', 'qunit', 'watch']);
 
 };
