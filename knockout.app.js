@@ -79,8 +79,13 @@
 		},
 
 		// Return the value provided either if it's a function or a property (model.url or model.url())
-		unwrapValue: function(value){
-			return typeof value === 'function' ? value() : value;
+		// Using the second parameter you can pass an option context where the value will be called
+		unwrapValue: function(value, context){
+			if(typeof value === 'function'){
+				return typeof context === 'undefined' ? value() : value.call(context);
+			}else{
+				return value;
+			}
 		},
 
 		// Errors wrapper, for now it simply log in the console everything is passed as a parameter to it ex. wrapError("an error occurred")
@@ -223,7 +228,7 @@
 		// Used for serialization, returns an object that contains model's attributes and its id
 		toJSON: function(){
 			var obj = ko.toJS(this.attributes);
-			obj.id = this.id();
+			if(this.id()) obj.id = this.id();
 			return obj;
 		}
 	});
@@ -325,10 +330,10 @@
 		var params = {},
 				options = _options || {};
 
-		param.dataType = 'json';
+		params.dataType = 'json';
 
 		//Get the url of the model/collection (model.url or model.url())
-		params.url = Utils.unwrapValue(model.url);
+		params.url = Utils.unwrapValue(model.url, this);
 		
 		switch(method){
 			case 'fetch':
