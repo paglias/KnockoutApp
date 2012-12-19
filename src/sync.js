@@ -14,10 +14,10 @@
 		var params = {},
 				options = _options || {};
 
-		param.dataType = 'json';
+		params.dataType = 'json';
 
 		//Get the url of the model/collection (model.url or model.url())
-		params.url = Utils.unwrapValue(model.url);
+		params.url = Utils.unwrapValue(model.url, this);
 		
 		switch(method){
 			case 'fetch':
