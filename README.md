@@ -23,3 +23,5 @@ For general discussion, features request and bugs report use [Github Issues](htt
 #Credits
 
 A big thank to [BackboneJS](http://backbonejs.org) for the inspiration given to that project (and also for the *extendClass* method that has been taken from it)!
+
+#License
