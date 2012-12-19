@@ -61,8 +61,13 @@
 		},
 
 		// Return the value provided either if it's a function or a property (model.url or model.url())
-		unwrapValue: function(value){
-			return typeof value === 'function' ? value() : value;
+		// Using the second parameter you can pass an option context where the value will be called
+		unwrapValue: function(value, context){
+			if(typeof value === 'function'){
+				return typeof context === 'undefined' ? value() : value.call(context);
+			}else{
+				return value;
+			}
 		},
 
 		// Errors wrapper, for now it simply log in the console everything is passed as a parameter to it ex. wrapError("an error occurred")

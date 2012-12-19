@@ -241,7 +241,7 @@ Accepts three parameters:
 Some utilitity methods used by KnockoutApp.
 
 ### unwrapValue
-KnockoutApp.Utils.unwrapValue( value )
+KnockoutApp.Utils.unwrapValue( value, [ context ] )
 
 If the passed value is a function call it or if it's a simple property simply return it.
 
@@ -256,6 +256,8 @@ If the passed value is a function call it or if it's a simple property simply re
 
 	//returns "a method"
 	KnockoutApp.Utils.unwrapValue(a)
+
+An optional second parameters "context" will be used as the context for calling value() ( value.call(context) )
 
 ### extendObjKnockout
 KnockoutApp.Utils.extendObjKnockout( destination, params )
