@@ -259,7 +259,7 @@
 			options.success = function(data){
 				var toAdd = [];
 
-				for(model in data){
+				for(var model in data){
 					toAdd.push(data[model]);
 				}
 
@@ -320,7 +320,7 @@
 	KnockoutApp.Sync = function(method, model, _options){
 
 		// Ensure jQuery is loaded
-		if(typeof root.$ === 'undefined') throw "jQuery is necessary to make Ajax calls"
+		if(typeof root.$ === 'undefined') throw "jQuery is necessary to make Ajax calls";
 
 		var params = {},
 				options = _options || {};

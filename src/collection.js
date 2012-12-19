@@ -29,7 +29,7 @@
 			options.success = function(data){
 				var toAdd = [];
 
-				for(model in data){
+				for(var model in data){
 					toAdd.push(data[model]);
 				}
 

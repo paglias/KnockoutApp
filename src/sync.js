@@ -9,7 +9,7 @@
 	KnockoutApp.Sync = function(method, model, _options){
 
 		// Ensure jQuery is loaded
-		if(typeof root.$ === 'undefined') throw "jQuery is necessary to make Ajax calls"
+		if(typeof root.$ === 'undefined') throw "jQuery is necessary to make Ajax calls";
 
 		var params = {},
 				options = _options || {};
