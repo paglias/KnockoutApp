@@ -130,7 +130,7 @@
 		// Used for serialization, returns an object that contains model's attributes and its id
 		toJSON: function(){
 			var obj = ko.toJS(this.attributes);
-			obj.id = this.id();
+			if(this.id()) obj.id = this.id();
 			return obj;
 		}
 	});
