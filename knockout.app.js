@@ -1,4 +1,4 @@
-/*! Knockout App - v0.2.0 - 2012-12-19
+/*! Knockout App - v0.1.1 - 2012-12-20
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2012 Matteo Pagliazzi; Licensed MIT */
 
@@ -15,7 +15,7 @@
 	var KnockoutApp = root.KnockoutApp = {};
 
 	// KnockoutApp's version
-	KnockoutApp.VERSION = "0.2.0";
+	KnockoutApp.VERSION = "0.1.1";
 	// An object that stores all utils used by KnockoutApp
 	var Utils = KnockoutApp.Utils = {
 
@@ -79,13 +79,12 @@
 		},
 
 		// Return the value provided either if it's a function or a property (model.url or model.url())
-		// Using the second parameter you can pass an option context where the value will be called
-		unwrapValue: function(value, context){
-			if(typeof value === 'function'){
-				return typeof context === 'undefined' ? value() : value.call(context);
-			}else{
-				return value;
-			}
+		// The first parameter is the object where the value is contained, the second one is the value itself
+		// After various attemps to make this working I've decided to adopt Underscore's *result* method.
+		unwrapValue: function(object, property){
+			if (object === null) return null;
+			var value = object[property];
+			return typeof value === 'function' ? value.call(object) : value;
 		},
 
 		// Errors wrapper, for now it simply log in the console everything is passed as a parameter to it ex. wrapError("an error occurred")
@@ -333,7 +332,7 @@
 		params.dataType = 'json';
 
 		//Get the url of the model/collection (model.url or model.url())
-		params.url = Utils.unwrapValue(model.url, this);
+		params.url = Utils.unwrapValue(model, url);
 		
 		switch(method){
 			case 'fetch':

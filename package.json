@@ -3,7 +3,7 @@
   "description": "A small framework for build KnockoutJS apps",
   "url": "http://paglias.net/KnockoutApp",
   "author": "Matteo Pagliazzi <matteopagliazzi@gmail.com>",
-  "version": "0.2.0",
+  "version": "0.1.1",
   "devDependencies": {
     "grunt": "0.4.x",
     "grunt-contrib-watch": "0.2.x",

@@ -250,23 +250,17 @@ Accepts three parameters:
 Some utilitity methods used by KnockoutApp.
 
 ### unwrapValue
-KnockoutApp.Utils.unwrapValue( value, [ context ] )
+KnockoutApp.Utils.unwrapValue( object, value )
 
 If the passed value is a function call it or if it's a simple property simply return it.
 
-	var a = "a property";
+	//Define a model....
 
-	// returns "a property"
-	KnockoutApp.Utils.unwrapValue(a);
+	// returns model.url or model.url()
+	KnockoutApp.Utils.unwrapValue(model, url);
 
-	var a = function(){
-		return "a method";
-	};
-
-	//returns "a method"
-	KnockoutApp.Utils.unwrapValue(a)
-
-An optional second parameters "context" will be used as the context for calling value() ( value.call(context) )
+The first params is the object where the value is contatined, the second one is the value itself.
+After various attempts to get this working I've found the Underscore.js implementation of their [result](http://underscorejs.org/#result) method to be exactly what I needed so I adopted it, thanks a lot!
 
 ### extendObjKnockout
 KnockoutApp.Utils.extendObjKnockout( destination, params )

@@ -61,13 +61,12 @@
 		},
 
 		// Return the value provided either if it's a function or a property (model.url or model.url())
-		// Using the second parameter you can pass an option context where the value will be called
-		unwrapValue: function(value, context){
-			if(typeof value === 'function'){
-				return typeof context === 'undefined' ? value() : value.call(context);
-			}else{
-				return value;
-			}
+		// The first parameter is the object where the value is contained, the second one is the value itself
+		// After various attemps to make this working I've decided to adopt Underscore's *result* method.
+		unwrapValue: function(object, property){
+			if (object === null) return null;
+			var value = object[property];
+			return typeof value === 'function' ? value.call(object) : value;
 		},
 
 		// Errors wrapper, for now it simply log in the console everything is passed as a parameter to it ex. wrapError("an error occurred")

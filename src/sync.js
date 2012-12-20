@@ -17,7 +17,7 @@
 		params.dataType = 'json';
 
 		//Get the url of the model/collection (model.url or model.url())
-		params.url = Utils.unwrapValue(model.url, this);
+		params.url = Utils.unwrapValue(model, url);
 		
 		switch(method){
 			case 'fetch':

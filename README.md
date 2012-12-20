@@ -2,7 +2,7 @@
 
 It's heavily inspired to [BackboneJS](http://backbonejs.org) and it's licensed under the MIT license.
 
-**ATTENTION**: this release (0.1) is the first one and it will surely contain a lot of bugs (which can be reported [here](https://github.com/paglias/KnockoutApp/issues)).
+If you find any bug, please report it (here [here](https://github.com/paglias/KnockoutApp/issues)).
 
 #Getting Started
 
@@ -20,8 +20,31 @@ Contributions are welcome, just send a pull request (it is preferred to target t
 
 For general discussion, features request and bugs report use [Github Issues](https://github.com/paglias/KnockoutApp/issues)
 
+#History
+
+### 0.1.1:
+ - fixes various bugs in KnockoutApp.Sync
+
+ - now you can set a *modelName* property in the model so that the model properties sent via Ajax will be wrapped in an object which name is the
+ value of *model.modelName* (useful for Ruby on Rails which expects parameters to be wrapped in an object es. task: {id: 1, name: "a task"})
+
+ - KnockoutApp.Utils.unwrapValue now uses the code of Underscore.js's *result*
+
+ - Added *package.json* to handle dependencies
+
+ - Upgraded to Grunt 0.4
+
+ - grunt-docco is incompatible with grunt 0.4 so the annotated source code has to be generated manually using *docco* from the command line, I hope to fix that in the next version.
+
+### 0.1:
+Initial release
+
 #Credits
 
 A big thank to [BackboneJS](http://backbonejs.org) for the inspiration given to that project (and also for the *extendClass* method that has been taken from it)!
 
+Thank also to [Underscore.js](http://underscorejs.org/) to which all the credits for KnockoutApp.Utils.unwrapValue are due.
+
 #License
+
+KnockoutApp is licensed under the MIT License.
