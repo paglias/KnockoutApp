@@ -16,7 +16,7 @@ Give a look to the [annotated source code](http://paglias.net/KnockoutApp/annota
 
 KnockoutApp uses [Grunt](http://gruntjs.com) as the build tool and [Docco](http://jashkenas.github.com/docco/) for generating annotated source code.
 
-Contributions are welcome, just send a pull request (it is preferred to target the development branch instead of the master one).
+Contributions are welcome, just send a pull request targetting the **development** branch.
 
 For general discussion, features request and bugs report use [Github Issues](https://github.com/paglias/KnockoutApp/issues)
 
