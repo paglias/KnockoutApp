@@ -129,6 +129,9 @@ model.modelName
 
 If you set this property, when using KnockoutApp.Sync then the data sent to the server will be wrapped in an object, which name is modelName ( this is useful when using Ruby on Rails that wants to receive update/create parameters wrapped in an object which name is the same of the model )
 
+	model.modelName = 'task';
+
+	// Data will be sent wrapped into *task*
 	modelName: {
 		//model properties
 	}
