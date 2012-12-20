@@ -20,6 +20,9 @@
 	// Extend Collection's prototype
 	ko.utils.extend(Collection.prototype, {
 
+		// A reference to KnockoutApp.Sync and overridable
+		sync: KnockoutApp.Sync,
+
 		// Fetch the models on the server and add them to the collection, this.url must be defined either as a string or a function
 		// Options for the Ajax call can be passed as a parameter
 		fetch: function(_options){
@@ -42,7 +45,7 @@
 
 			if(options) ko.utils.extend(options, _options);
 
-			return (this.sync || KnockoutApp.Sync).call(this, 'fetch', this, options); //return?
+			return this.sync.call(this, 'fetch', this, options);
 		},
 
 		// Add one or more models to collection and optionally create them on the server setting the 'create' parameter to 'true'

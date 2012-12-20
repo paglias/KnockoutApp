@@ -49,6 +49,9 @@
 			return {};
 		},
 
+		// Uses this.collection.sync || KnockoutApp.Sync or custom version
+		sync: (this.collection && this.collection.sync) || KnockoutApp.Sync;
+
 		// Returns the model url on the server using the model's baseUrl or collection's url properties
 		url: function(){
 			var base = this.baseUrl || this.collection.url;
@@ -78,7 +81,7 @@
 
 			if(_options) ko.utils.extend(options, _options);
 
-			return (this.sync || (this.collection && this.collection.sync) || KnockoutApp.Sync).call(this, 'fetch', this, options);
+			return this.sync.call(this, 'fetch', this, options);
 		},
 
 		// Save the model on the server.
@@ -101,7 +104,7 @@
 
 			if(_options) ko.utils.extend(options, _options);
 
-			return (this.sync || (this.collection && this.collection.sync) || KnockoutApp.Sync).call(this, method, this, options);
+			return this.sync.call(this, method, this, options);
 		},
 
 		// Destroy the model on the server and remove it from its collection (if exists)
@@ -123,7 +126,7 @@
 
 				if(_options) ko.utils.extend(options, _options);
 				
-				return (this.sync || (this.collection && this.collection.sync) || KnockoutApp.Sync).call(this, 'destroy', this, options);
+				return this.sync.call(this, 'destroy', this, options);
 			}
 		},
 
