@@ -1,0 +1,28 @@
+---
+layout: default
+title: Documentation
+js: [
+	//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js,
+	/libs/jquery-ui-1.9.2.custom.min.js,
+	/libs/jquery.tocify.js-1.1.0/jquery.tocify.min.js,
+	/libs/google-code-prettify/prettify.js,
+	/js/documentation.js
+]
+css: [
+	/libs/jquery.tocify.js-1.1.0/jquery.tocify.css,
+	/libs/google-code-prettify/prettify.bootstrap.css,
+	/css/style.css,
+	/css/documentation.css
+]
+---
+<div class="container">
+	<div class="row">
+		<div id="toc" class="span3"></div>
+			<div id="documentation" class="span9 pull-right">
+				<section id="model">
+					{% include documentation/model/index.html %}
+					{% include documentation/model/attributes.html %}
+				</section>
+			</div>
+		</div>
+	</div>
