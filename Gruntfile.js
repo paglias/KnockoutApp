@@ -43,9 +43,9 @@ module.exports = function(grunt) {
     	}
     },
 
-    /*qunit: {
+    qunit: {
     	all: 'http://localhost:8000/tests/index.html'
-    }*/
+    }
 
     /*docco: {
     	build: {
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	//grunt.loadNpmTasks('grunt-contrib-qunit');
+	grunt.loadNpmTasks('grunt-contrib-qunit');
 
 	// Register tasks.
 	grunt.registerTask('build', ['concat', 'uglify']);
