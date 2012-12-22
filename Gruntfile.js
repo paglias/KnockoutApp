@@ -34,9 +34,6 @@ module.exports = function(grunt) {
 
     connect: {
     	server: { },
-      tests: {
-        keepalive: true
-      }
     },
 
     watch: {
@@ -71,7 +68,6 @@ module.exports = function(grunt) {
 
 	// Register tasks.
 	grunt.registerTask('build', ['concat', 'uglify']);
-  grunt.registerTask('tests', ['connect:tests', 'qunit']);
 	grunt.registerTask('run', ['build', 'connect:server', 'qunit', 'watch']);
 
 };
