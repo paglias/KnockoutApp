@@ -50,7 +50,7 @@
 		},
 
 		// Uses this.collection.sync || KnockoutApp.Sync or custom version
-		sync: (this.collection && this.collection.sync) || KnockoutApp.Sync;
+		sync: (this.collection && this.collection.sync) || KnockoutApp.Sync,
 
 		// Returns the model url on the server using the model's baseUrl or collection's url properties
 		url: function(){

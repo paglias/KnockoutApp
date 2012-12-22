@@ -1,4 +1,4 @@
-/*! Knockout App - v0.1.1 - 2012-12-20
+/*! Knockout App - v0.2.0 - 2012-12-22
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2012 Matteo Pagliazzi; Licensed MIT */
 
@@ -15,7 +15,7 @@
 	var KnockoutApp = root.KnockoutApp = {};
 
 	// KnockoutApp's version
-	KnockoutApp.VERSION = "0.1.1";
+	KnockoutApp.VERSION = "0.2.0";
 	// An object that stores all utils used by KnockoutApp
 	var Utils = KnockoutApp.Utils = {
 
@@ -146,6 +146,9 @@
 			return {};
 		},
 
+		// Uses this.collection.sync || KnockoutApp.Sync or custom version
+		sync: (this.collection && this.collection.sync) || KnockoutApp.Sync,
+
 		// Returns the model url on the server using the model's baseUrl or collection's url properties
 		url: function(){
 			var base = this.baseUrl || this.collection.url;
@@ -175,7 +178,7 @@
 
 			if(_options) ko.utils.extend(options, _options);
 
-			return (this.sync || (this.collection && this.collection.sync) || KnockoutApp.Sync).call(this, 'fetch', this, options);
+			return this.sync.call(this, 'fetch', this, options);
 		},
 
 		// Save the model on the server.
@@ -198,7 +201,7 @@
 
 			if(_options) ko.utils.extend(options, _options);
 
-			return (this.sync || (this.collection && this.collection.sync) || KnockoutApp.Sync).call(this, method, this, options);
+			return this.sync.call(this, method, this, options);
 		},
 
 		// Destroy the model on the server and remove it from its collection (if exists)
@@ -220,7 +223,7 @@
 
 				if(_options) ko.utils.extend(options, _options);
 				
-				return (this.sync || (this.collection && this.collection.sync) || KnockoutApp.Sync).call(this, 'destroy', this, options);
+				return this.sync.call(this, 'destroy', this, options);
 			}
 		},
 
@@ -254,6 +257,9 @@
 	// Extend Collection's prototype
 	ko.utils.extend(Collection.prototype, {
 
+		// A reference to KnockoutApp.Sync and overridable
+		sync: KnockoutApp.Sync,
+
 		// Fetch the models on the server and add them to the collection, this.url must be defined either as a string or a function
 		// Options for the Ajax call can be passed as a parameter
 		fetch: function(_options){
@@ -276,7 +282,7 @@
 
 			if(options) ko.utils.extend(options, _options);
 
-			return (this.sync || KnockoutApp.Sync).call(this, 'fetch', this, options); //return?
+			return this.sync.call(this, 'fetch', this, options);
 		},
 
 		// Add one or more models to collection and optionally create them on the server setting the 'create' parameter to 'true'
