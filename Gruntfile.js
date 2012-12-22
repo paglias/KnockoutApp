@@ -33,7 +33,10 @@ module.exports = function(grunt) {
     },
 
     connect: {
-    	server: { }
+    	server: { },
+      tests: {
+        keepalive: true
+      }
     },
 
     watch: {
@@ -68,8 +71,7 @@ module.exports = function(grunt) {
 
 	// Register tasks.
 	grunt.registerTask('build', ['concat', 'uglify']);
-
-	// Cause an error with multiple server instances but it still works fine
+  grunt.registerTask('tests', ['connect:tests', 'qunit']);
 	grunt.registerTask('run', ['build', 'connect:server', 'qunit', 'watch']);
 
 };
