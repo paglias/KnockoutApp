@@ -73,7 +73,7 @@
 					options = {};
 
 			options.succes = function(data){
-				delete data.id;
+				delete data[self.idAttribute];
 				self.attributes = Utils.extendObjKnockout(self.defaultAttributes(), data);
 			};
 			
