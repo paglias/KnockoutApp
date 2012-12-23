@@ -1,4 +1,4 @@
-/*! Knockout App - v0.2.0 - 2012-12-22
+/*! Knockout App - v0.2.0 - 2012-12-23
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2012 Matteo Pagliazzi; Licensed MIT */
 
@@ -107,10 +107,10 @@
 		// If an 'attributes' object is passed as a parameter:
 		if(attributes){
 
-			// In case it contains an 'id' property set **this.id()** value to it and delete it from the attributes object 
-			if(attributes.id){
-				this.id(attributes.id);
-				delete attributes.id;
+			// In case it contains an 'id' (or the idAttribute property) property set **this.id()** value to it and delete it from the attributes object 
+			if(attributes[this.idAttribute]){
+				this.id(attributes[this.idAttribute]);
+				delete attributes[this.idAttribute];
 			}
 
 			// Merge the attributes passed as parameters with the default attributes stored inside **this.defaultAttributes()**
@@ -145,6 +145,8 @@
 		defaultAttributes: function(){
 			return {};
 		},
+
+		idAttribute: 'id',
 
 		// Uses this.collection.sync || KnockoutApp.Sync or custom version
 		sync: (this.collection && this.collection.sync) || KnockoutApp.Sync,
@@ -192,7 +194,7 @@
 					method = this.isNew() ? 'create' : 'update';
 
 			options.success = function(data){
-				if(method === 'create') self.id(data.id);
+				if(method === 'create') self.id(data[this.idAttribute]);
 			};
 
 			options.error = function(){
@@ -230,7 +232,7 @@
 		// Used for serialization, returns an object that contains model's attributes and its id
 		toJSON: function(){
 			var obj = ko.toJS(this.attributes);
-			if(this.id()) obj.id = this.id();
+			if(this.id()) obj[this.idAttribute] = this.id();
 			return obj;
 		}
 	});
@@ -338,7 +340,7 @@
 		params.dataType = 'json';
 
 		//Get the url of the model/collection (model.url or model.url())
-		params.url = Utils.unwrapValue(model, url);
+		params.url = Utils.unwrapValue(model, 'url');
 		
 		switch(method){
 			case 'fetch':
