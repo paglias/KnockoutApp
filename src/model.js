@@ -56,7 +56,7 @@
 
 		// Returns the model url on the server using the model's baseUrl or collection's url properties
 		url: function(){
-			var base = this.baseUrl || this.collection.url;
+			var base = this.baseUrl || (this.collection && Utils.unwrapValue(this.collection, 'url'));
 			if(this.isNew()) return base;
 			return base + (base[base.length-1] === '/' ? '' : '/') + this.id();
 		},
