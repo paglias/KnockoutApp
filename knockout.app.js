@@ -148,8 +148,10 @@
 
 		idAttribute: 'id',
 
-		// Uses this.collection.sync || KnockoutApp.Sync or custom version
-		sync: (this.collection && this.collection.sync) || KnockoutApp.Sync,
+		// Uses this.collection.sync || KnockoutApp.Sync can be overriden
+		sync: function(){
+			return ((this.collection && this.collection.sync) || KnockoutApp.Sync).apply(this, arguments);
+		},
 
 		// Returns the model url on the server using the model's baseUrl or collection's url properties
 		url: function(){
@@ -169,7 +171,7 @@
 			var self = this,
 					options = {};
 
-			options.succes = function(data){
+			options.success = function(data){
 				delete data[self.idAttribute];
 				self.attributes = Utils.extendObjKnockout(self.defaultAttributes(), data);
 			};
