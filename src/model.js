@@ -114,8 +114,9 @@
 		// Destroy the model on the server and remove it from its collection (if exists)
 		// Options for the Ajax call can be passed as a parameter
 		destroy: function(_options){
-			if(this.isNew() && this.collection){
-				this.collection.models.remove(this);
+			if(this.isNew()){
+				if(this.collection) this.collection.models.remove(this);
+				return false;
 			}else if(!this.isNew()){
 				var options = {},
 						self = this;
