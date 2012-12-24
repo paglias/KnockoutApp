@@ -297,6 +297,7 @@
 				var model;
 				if(attributes instanceof Model){
 					model = attributes;
+					model.collection = self;
 				}else{
 					model = new self.model(attributes, self);
 				}
