@@ -1,4 +1,4 @@
-/*! Knockout App - v0.2.0 - 2012-12-23
+/*! Knockout App - v0.2.0 - 2012-12-24
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2012 Matteo Pagliazzi; Licensed MIT */
 
@@ -153,7 +153,7 @@
 
 		// Returns the model url on the server using the model's baseUrl or collection's url properties
 		url: function(){
-			var base = this.baseUrl || this.collection.url;
+			var base = this.baseUrl || (this.collection && Utils.unwrapValue(this.collection, 'url'));
 			if(this.isNew()) return base;
 			return base + (base[base.length-1] === '/' ? '' : '/') + this.id();
 		},
@@ -170,7 +170,7 @@
 					options = {};
 
 			options.succes = function(data){
-				delete data.id;
+				delete data[self.idAttribute];
 				self.attributes = Utils.extendObjKnockout(self.defaultAttributes(), data);
 			};
 			
@@ -294,7 +294,12 @@
 					self = this;
 
 			ko.utils.arrayForEach(toAdd, function(attributes){
-				var model = new self.model(attributes, self);
+				var model;
+				if(attributes instanceof Model){
+					model = attributes;
+				}else{
+					model = new self.model(attributes, self);
+				}
 				self.models.push(model);
 				if(create) model.save();
 			});
