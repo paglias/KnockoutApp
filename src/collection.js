@@ -55,7 +55,12 @@
 					self = this;
 
 			ko.utils.arrayForEach(toAdd, function(attributes){
-				var model = new self.model(attributes, self);
+				var model;
+				if(attributes instanceof Model){
+					model = attributes;
+				}else{
+					model = new self.model(attributes, self);
+				}
 				self.models.push(model);
 				if(create) model.save();
 			});
