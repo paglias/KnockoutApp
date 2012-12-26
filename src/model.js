@@ -99,7 +99,7 @@
 					method = this.isNew() ? 'create' : 'update';
 
 			options.success = function(data){
-				if(method === 'create') self.id(data[this.idAttribute]);
+				if(method === 'create') self.id(data[self.idAttribute]);
 			};
 
 			options.error = function(){

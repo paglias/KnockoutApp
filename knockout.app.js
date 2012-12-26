@@ -1,4 +1,4 @@
-/*! Knockout App - v0.2.0 - 2012-12-24
+/*! Knockout App - v0.2.0 - 2012-12-26
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2012 Matteo Pagliazzi; Licensed MIT */
 
@@ -196,7 +196,8 @@
 					method = this.isNew() ? 'create' : 'update';
 
 			options.success = function(data){
-				if(method === 'create') self.id(data[this.idAttribute]);
+				console.log(method, data[self.idAttribute]);
+				if(method === 'create') self.id(data[self.idAttribute]);
 			};
 
 			options.error = function(){
