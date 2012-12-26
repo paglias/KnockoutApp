@@ -1,8 +1,12 @@
 module("Sync");
 
-test( "a basic test example", function() {
-  ok( true, "this test is fine" );
+test( "throws an error if jQuery is not loaded", function() {
+	var old$ = function(){
+		return $;
+	}();
+
+	$ = undefined;
+	throws(KnockoutApp.Sync);
+	$ = old$;
 });
-test( "a basic test example 2", function() {
-  ok( true, "this test is fine" );
-});
+
