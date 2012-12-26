@@ -123,7 +123,7 @@ asyncTest( "fetch", function(){
 
 	var instance = new model({id: 44, name: "my task", done: false});
 
-	$.mockjax({
+	var ajax = $.mockjax({
 		url: '/tasks/44',
 		responseTime: 5,
 		contentType: 'text/json',
@@ -140,6 +140,7 @@ asyncTest( "fetch", function(){
 		equal(instance.id(), 44);
 		equal(instance.attributes.name(), "my fetched task");
 		equal(instance.attributes.done(), false);
+		$.mockjaxClear(ajax);
 		start();
 	}, 6);
 
@@ -160,7 +161,7 @@ asyncTest( "create (save)", function(){
 
 	var instance = new model({name: "my task", done: false});
 
-	$.mockjax({
+	var ajax = $.mockjax({
 		type: 'POST',
 		url: '/tasks',
 		responseTime: 5,
@@ -178,6 +179,7 @@ asyncTest( "create (save)", function(){
 		equal(instance.id(), 55);
 		equal(instance.attributes.name(), "my task");
 		equal(instance.attributes.done(), false);
+		$.mockjaxClear(ajax);
 		start();
 	}, 6);
 });
@@ -199,7 +201,7 @@ asyncTest( "update (save)", function(){
 
 	var instance = new model({id: 77, name: "my task", done: false});
 
-	$.mockjax({
+	var ajax = $.mockjax({
 		type: 'PUT',
 		url: '/tasks/77',
 		responseTime: 5,
@@ -214,6 +216,7 @@ asyncTest( "update (save)", function(){
 
 	setTimeout(function(){
 		equal(result, true);
+		$.mockjaxClear(ajax);
 		start();
 	}, 6);
 });
@@ -232,7 +235,7 @@ asyncTest( "destroy", function(){
 
 	equal(coll.models().length, 1);
 
-	$.mockjax({
+	var ajax = $.mockjax({
 		type: 'DELETE',
 		url: '/tasks/66',
 		responseTime: 5,
@@ -243,6 +246,7 @@ asyncTest( "destroy", function(){
 
 	setTimeout(function(){
 		equal(coll.models().length, 0);
+		$.mockjaxClear(ajax);
 		start();
 	}, 6);
 
