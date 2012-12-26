@@ -96,7 +96,7 @@
 	}; 
 
 	// This is the base Model class in KnockoutApp
-	var Model = KnockoutApp.Model = function(attributes, collection){
+	var Model = KnockoutApp.Model = function(attributes, options){
 
 		// 'id' is an observable property, initially set to 'false'
 		this.id = ko.observable(false);
@@ -122,7 +122,7 @@
 
 		// This function allows to be passed, as the second parameter, a reference to a **Collection**.
 		// In that case a reference to the collection is set as *this.collection*
-		if(collection) this.collection = collection;
+		if(options && options.collection) this.collection = options.collection;
 
 		// Detect if the model has been created on the server by checking if the 'id' property is defined
 		this.isNew = ko.computed(function(){
@@ -304,7 +304,7 @@
 					model = attributes;
 					model.collection = self;
 				}else{
-					model = new self.model(attributes, self);
+					model = new self.model(attributes, {collection: self});
 				}
 				self.models.push(model);
 				if(create) model.save();

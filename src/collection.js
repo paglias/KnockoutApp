@@ -62,7 +62,7 @@
 					model = attributes;
 					model.collection = self;
 				}else{
-					model = new self.model(attributes, self);
+					model = new self.model(attributes, {collection: self});
 				}
 				self.models.push(model);
 				if(create) model.save();

@@ -2,14 +2,14 @@ module("Model");
 
 test( "initialize", function(){
 	var model = KnockoutApp.Model.extend({
-		initialize: function(attributes, collection){
-			this.property = "initialize with " + attributes.first + " " + collection;
+		initialize: function(attributes, options){
+			this.property = "initialize with " + attributes.first + " " + options.first;
 		}
 	});
 
-	var instance = new model({first: "first"}, "collection");
+	var instance = new model({first: "first"}, {first: "option 1"});
 
-	equal( instance.property, "initialize with first collection" );
+	equal( instance.property, "initialize with first option 1");
 });
 
 test( "attributes and defaultAttributes", function(){
@@ -33,11 +33,11 @@ test( "attributes and defaultAttributes", function(){
 
 test( "collection", function(){
 	var model = KnockoutApp.Model.extend();
-	var collection = new KnockoutApp.Collection(model);
+	var coll = new KnockoutApp.Collection(model);
 
-	var instance = new model(null, collection);
+	var instance = new model(null, {collection: coll});
 
-	equal(instance.collection, collection);
+	equal(instance.collection, coll);
 });
 
 test( "id and idAttribute", function(){
@@ -205,7 +205,7 @@ asyncTest( "update (save)", function(){
 		type: 'PUT',
 		url: '/tasks/77',
 		responseTime: 5,
-		contentType: 'text/json',
+		contentType: 'text/json'
 	});
 
 	instance.save({
