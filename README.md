@@ -6,7 +6,7 @@ If you find any bug, please report it (here [here](https://github.com/paglias/Kn
 
 #Getting Started
 
-The last stable version is 0.1.1, which you can get [here](https://github.com/paglias/KnockoutApp/tree/0.1.1) 
+The last stable version is 0.1.1, which you can get [here](https://github.com/paglias/KnockoutApp/tree/0.1.1), the development happensa on the **master**.
 
 Just include *knockout.app.min.js* in your html page to start using it (remember that KnockoutJS in necessary).
 
