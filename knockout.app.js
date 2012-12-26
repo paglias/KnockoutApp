@@ -196,7 +196,6 @@
 					method = this.isNew() ? 'create' : 'update';
 
 			options.success = function(data){
-				console.log(method, data[self.idAttribute]);
 				if(method === 'create') self.id(data[self.idAttribute]);
 			};
 
@@ -264,7 +263,9 @@
 	ko.utils.extend(Collection.prototype, {
 
 		// A reference to KnockoutApp.Sync and overridable
-		sync: KnockoutApp.Sync,
+		sync: function(){
+			return KnockoutApp.Sync.apply(this, arguments);
+		},
 
 		// Fetch the models on the server and add them to the collection, this.url must be defined either as a string or a function
 		// Options for the Ajax call can be passed as a parameter
