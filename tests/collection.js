@@ -1,7 +1,7 @@
 module("Collection");
 
 test( "throws error if missing model", function(){
-	throws(KnockoutApp.Collection, "A model must be provided for a collection");
+	throws(KnockoutApp.Collection);
 });
 
 test( "model reference", function(){
