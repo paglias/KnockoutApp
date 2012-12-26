@@ -76,9 +76,7 @@ test( "sync", function(){
 			return arguments;
 		}
 	});
-	var instance = new model({
-		name: "hdgsagfa884b34b"
-	});
+	var instance = new model();
 
 	//Check that model.sync can be overriden
 	equal(instance.sync.call(instance, 'fetch', instance)[0], "fetch");
