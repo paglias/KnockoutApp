@@ -31,6 +31,19 @@
       return destination;
     },
 
+    // Used to clone an object with knockout elements inside
+    cloneObjKnockout: function(obj){
+      if(ko.isWriteableObservable(obj)) return ko.observable(obj());
+      if(obj === null || typeof obj !== 'object') return obj;
+      
+      var temp = obj.constructor(); // give temp the original obj's constructor
+      for (var key in obj) {
+        temp[key] = Utils.cloneObjKnockout(obj[key]);
+      }
+
+      return temp;
+    },
+
     // A simple method to extend a 'class' using newClass = Class.extend(), it is based on BackboneJS's one
     // No parameter can be passed to it, copy instance and static properties
     // Support __super__ which is a reference to the parent class prototype

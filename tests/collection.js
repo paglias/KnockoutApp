@@ -53,11 +53,9 @@ asyncTest( "fetch", function(){
     url: "/taskslist"
   });
   var model = KnockoutApp.Model.extend({
-    defaultAttributes: function(){
-      return {
-        name: ko.observable("a task"),
-        done: ko.observable(false)
-      };
+    defaultAttributes: {
+      name: ko.observable("a task"),
+      done: ko.observable(false)
     }
   });
 
@@ -95,11 +93,9 @@ asyncTest( "add", function(){
     url: "/tasks"
   });
   var model = KnockoutApp.Model.extend({
-    defaultAttributes: function(){
-      return {
-        name: ko.observable("a task"),
-        done: ko.observable(false)
-      };
+    defaultAttributes: {
+      name: ko.observable("a task"),
+      done: ko.observable(false)
     }
   });
 

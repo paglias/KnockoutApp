@@ -50,6 +50,19 @@
       return destination;
     },
 
+    // Used to clone an object with knockout elements inside
+    cloneObjKnockout: function(obj){
+      if(ko.isWriteableObservable(obj)) return ko.observable(obj());
+      if(obj === null || typeof obj !== 'object') return obj;
+      
+      var temp = obj.constructor(); // give temp the original obj's constructor
+      for (var key in obj) {
+        temp[key] = Utils.cloneObjKnockout(obj[key]);
+      }
+
+      return temp;
+    },
+
     // A simple method to extend a 'class' using newClass = Class.extend(), it is based on BackboneJS's one
     // No parameter can be passed to it, copy instance and static properties
     // Support __super__ which is a reference to the parent class prototype
@@ -118,7 +131,7 @@
       //
       // Using **Utils.extendObjKnockout** ensured that observable properties inside *this.defaultAttributes()*
       // are correctly set into *this.attributes*
-      this.attributes = Utils.extendObjKnockout(this.defaultAttributes(), attributes);
+      this.attributes = Utils.extendObjKnockout(Utils.cloneObjKnockout(this.defaultAttributes), attributes);
     }
 
     // This function allows to be passed, as the second parameter, a reference to a **Collection**.
@@ -143,9 +156,7 @@
     // An object with the default attributes for the model 
     // It must be a function because no 'clone' method has been implemented so far, will be fixed in future versions
     // Here you can also use observable properties.
-    defaultAttributes: function(){
-      return {};
-    },
+    defaultAttributes: {},
 
     idAttribute: 'id',
 
@@ -174,7 +185,7 @@
 
       options.success = function(data){
         delete data[self.idAttribute];
-        self.attributes = Utils.extendObjKnockout(self.defaultAttributes(), data);
+        self.attributes = Utils.extendObjKnockout(Utils.cloneObjKnockout(self.defaultAttributes), data);
       };
       
       options.error = function(){

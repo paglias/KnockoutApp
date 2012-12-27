@@ -14,11 +14,9 @@ test( "initialize", function(){
 
 test( "attributes and defaultAttributes", function(){
   var model = KnockoutApp.Model.extend({
-    defaultAttributes: function(){
-      return {
-        firstName: ko.observable("firstName"),
-        lastName: ko.observable("lastName")
-      };
+    defaultAttributes: {
+      firstName: ko.observable("firstName"),
+      lastName: ko.observable("lastName")
     }
   });
 
@@ -28,7 +26,7 @@ test( "attributes and defaultAttributes", function(){
 
   equal( instance.attributes.firstName(), "firstName" );
   equal( instance.attributes.lastName(), "Pagliazzi" );
-  equal( instance.defaultAttributes().lastName(), "lastName" );
+  equal( instance.defaultAttributes.lastName(), "lastName" );
 });
 
 test( "collection", function(){
@@ -112,11 +110,9 @@ asyncTest( "fetch", function(){
   var model = KnockoutApp.Model.extend({
     baseUrl: "/tasks",
 
-    defaultAttributes: function(){
-      return {
-        name: ko.observable("a task"),
-        done: ko.observable(false)
-      };
+    defaultAttributes: {
+      name: ko.observable("a task"),
+      done: ko.observable(false)
     }
 
   });
@@ -150,11 +146,9 @@ asyncTest( "create (save)", function(){
   var model = KnockoutApp.Model.extend({
     baseUrl: "/tasks",
 
-    defaultAttributes: function(){
-      return {
-        name: ko.observable("a task"),
-        done: ko.observable(false)
-      };
+    defaultAttributes: {
+      name: ko.observable("a task"),
+      done: ko.observable(false)
     }
 
   });
@@ -208,11 +202,9 @@ asyncTest( "update (save)", function(){
   var model = KnockoutApp.Model.extend({
     baseUrl: "/tasks",
 
-    defaultAttributes: function(){
-      return {
-        name: ko.observable("a task"),
-        done: ko.observable(false)
-      };
+    defaultAttributes: {
+      name: ko.observable("a task"),
+      done: ko.observable(false)
     }
 
   });
