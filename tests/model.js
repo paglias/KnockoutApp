@@ -204,7 +204,7 @@ asyncTest( "create (save)", function(){
     success: function(){
       validationResult = true; // in case the validation didn't stop the sync call...
     }
-  })
+  });
 
   setTimeout(function(){
     // instance correctly created
@@ -264,7 +264,7 @@ asyncTest( "update (save)", function(){
     success: function(data){
       validationResult = true;
     }
-  })
+  });
 
   setTimeout(function(){
     equal(result, true);
@@ -278,24 +278,30 @@ asyncTest( "update (save)", function(){
 });
 
 asyncTest( "destroy", function(){
-  var notSaved = new KnockoutApp.Model({
-    name: "john"
+  var model = KnockoutApp.Model.extend({
+    defaultAttributes: {
+      name: "john"
+    },
+    baseUrl: "/tasks"
   });
+
+  var notSaved = new model();
 
   equal(notSaved.destroy(), false);
 
-  var coll = new KnockoutApp.Collection(KnockoutApp.Model);
+  var coll = new KnockoutApp.Collection(model);
 
-  var saved = new KnockoutApp.Model({
-    id: 66,
-    name: "john"
+  var saved1 = new model({
+    id: 66
   });
 
-  saved.baseUrl = "/tasks";
+  var saved2 = new model({
+    id: 66
+  });
 
-  coll.add(saved);
+  coll.add([saved1, saved2]);
 
-  equal(coll.models().length, 1);
+  equal(coll.models().length, 2);
 
   var ajax = $.mockjax({
     type: 'DELETE',
@@ -304,10 +310,13 @@ asyncTest( "destroy", function(){
     contentType: 'text/json'
   });
 
-  saved.destroy();
+  saved1.destroy();
+  saved2.destroy({wait: true});
 
   setTimeout(function(){
-    strictEqual(saved.collection, undefined);
+    strictEqual(saved1.collection, undefined);
+
+    strictEqual(saved2.collection, undefined);
     equal(coll.models().length, 0);
 
     $.mockjaxClear(ajax);
