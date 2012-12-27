@@ -16,6 +16,10 @@
 
     params.dataType = 'json';
 
+    params.error = function(){
+      Utils.wrapError(arguments);
+    };
+
     //Get the url of the model/collection (model.url or model.url())
     params.url = Utils.unwrapValue(model, 'url');
 

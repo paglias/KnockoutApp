@@ -38,10 +38,6 @@
         if(toAdd.length > 0) self.add(toAdd);
       };
 
-      options.error = function(){
-        Utils.wrapError(arguments);
-      };
-
       if(options) ko.utils.extend(options, _options);
 
       return this.sync.call(this, 'fetch', this, options);
