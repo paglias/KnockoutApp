@@ -7,7 +7,11 @@ test( "initialize", function(){
     }
   });
 
-  var instance = new model({first: "first"}, {first: "option 1"});
+  var instance = new model({
+    first: "first" // attributes
+  }, {
+    first: "option 1" // options
+  });
 
   equal( instance.property, "initialize with first option 1");
 });
@@ -42,6 +46,7 @@ test( "id and idAttribute", function(){
   var model = KnockoutApp.Model.extend({
     idAttribute: "_id"
   });
+
   var instance = new model({_id: "1"});
 
   equal(instance.id(), 1);
@@ -55,29 +60,30 @@ test( "id and idAttribute", function(){
 test( "isNew", function(){
   var model = KnockoutApp.Model.extend();
 
-  var isNew = new model();
+  var notSaved = new model();
 
-  equal(isNew.isNew(), true);
+  equal(notSaved.isNew(), true);
 
-  isNew.id("2");
+  notSaved.id("2");
 
-  equal(isNew.isNew(), false);
+  equal(notSaved.isNew(), false);
 
-  var nonNew = new model({id: "1"});
+  var saved = new model({id: "1"});
 
-  equal(nonNew.isNew(), false);
+  equal(saved.isNew(), false);
 });
 
 test( "sync", function(){
   var model = KnockoutApp.Model.extend({
     sync: function(){
-      return arguments;
+      return "sync overriden!";
     }
   });
+
   var instance = new model();
 
   //Check that model.sync can be overriden
-  equal(instance.sync.call(instance, 'fetch', instance)[0], "fetch");
+  equal(instance.sync(), "sync overriden!");
 });
 
 test( "url", function(){
@@ -85,39 +91,44 @@ test( "url", function(){
     baseUrl: "base"
   });
 
-  var instanceNew = new model();
+  var notSaved = new model();
 
-  equal(instanceNew.url(), "base");
+  equal(notSaved.url(), "base");
 
-  var instance = new model({id: 1});
+  var saved = new model({id: 1});
 
-  equal(instance.url(), "base/1");
+  equal(saved.url(), "base/1");
 
-  var coll = KnockoutApp.Collection.extend({
-    url: "coll"
+  var collection = KnockoutApp.Collection.extend({
+    url: "collection"
   });
 
-  model.prototype.baseUrl = undefined;
+  var model1 = KnockoutApp.Model.extend();
 
-  var coll1 = new coll(model);
+  var collectionInstance = new collection(model1);
 
-  coll1.add({id: 2});
+  collectionInstance.add({id: 2});
 
-  equal(coll1.models()[0].url(), "coll/2");
+  collectionFirst = collectionInstance.models()[0];
+
+  equal(collectionFirst.url(), "collection/2");
 });
 
 asyncTest( "fetch", function(){
+
   var model = KnockoutApp.Model.extend({
     baseUrl: "/tasks",
-
     defaultAttributes: {
       name: ko.observable("a task"),
       done: ko.observable(false)
     }
-
   });
 
-  var instance = new model({id: 44, name: "my task", done: false});
+  var instance = new model({
+    id: 44,
+    name: "my task",
+    done: false
+  });
 
   var ajax = $.mockjax({
     url: '/tasks/44',
@@ -143,23 +154,32 @@ asyncTest( "fetch", function(){
 });
 
 asyncTest( "create (save)", function(){
+
   var model = KnockoutApp.Model.extend({
     baseUrl: "/tasks",
-
     defaultAttributes: {
       name: ko.observable("a task"),
       done: ko.observable(false)
-    }
-
+    },
+    modelName: "task"
   });
 
-  var instance = new model({name: "my task", done: false});
+  var instance = new model({
+    name: "my task",
+    done: false
+  });
 
   var ajax = $.mockjax({
     type: 'POST',
     url: '/tasks',
     responseTime: 5,
     contentType: 'text/json',
+    data: { // check that the data sent is wrapped in model.modelName
+      task: {
+        name: "my task",
+        done: false
+      }
+    },
     responseText: {
       id: 55,
       name: "my task",
@@ -169,26 +189,29 @@ asyncTest( "create (save)", function(){
 
   instance.save();
 
-  var instance2 = new model({name: "my task to be validated", done: false});
+  var instance2 = new model({
+    name: "my task to be validated",
+    done: false
+  });
+
   instance2.validate = function(){
     return "validation failed...";
   };
 
-  var validateResult = false;
+  var validationResult = false; // what is expected
 
   instance2.save({
     success: function(){
-      validateResult = true;
+      validationResult = true; // in case the validation didn't stop the sync call...
     }
   })
 
   setTimeout(function(){
+    // instance correctly created
     equal(instance.id(), 55);
-    equal(instance.attributes.name(), "my task");
-    equal(instance.attributes.done(), false);
 
     equal(instance2.validate(), "validation failed...");
-    equal(validateResult, false);
+    equal(validationResult, false); // check that the sync call hasn't been executed
 
     $.mockjaxClear(ajax);
     start();
@@ -196,33 +219,42 @@ asyncTest( "create (save)", function(){
 });
 
 asyncTest( "update (save)", function(){
-  var result = false,
-      resultValidate = false;
 
   var model = KnockoutApp.Model.extend({
     baseUrl: "/tasks",
-
     defaultAttributes: {
       name: ko.observable("a task"),
       done: ko.observable(false)
     }
-
   });
 
-  var instance = new model({id: 77, name: "my task", done: false});
+  var instance = new model({
+    id: 77,
+    name: "my task",
+    done: false
+  });
 
   var ajax = $.mockjax({
     type: 'PUT',
     url: '/tasks/77',
     responseTime: 5,
-    contentType: 'text/json'
+    contentType: 'text/json',
+    data: { // check that the data sent is correct
+      id: 77,
+      name: "my task",
+      done: false
+    }
   });
+
+  var result = false; // necessary to check the update has been successful
 
   instance.save({
     success: function(data){
-      result = true;
+      result = true; // update successful
     }
   });
+
+  var validationResult = false;
 
   instance.validate = function(){
     return "validation failed...";
@@ -230,30 +262,38 @@ asyncTest( "update (save)", function(){
 
   instance.save({
     success: function(data){
-      resultValidate = true;
+      validationResult = true;
     }
   })
 
   setTimeout(function(){
-    equal(resultValidate, false);
-    equal(instance.validate(), "validation failed...");
     equal(result, true);
+
+    equal(validationResult, false);
+    equal(instance.validate(), "validation failed...");
+
     $.mockjaxClear(ajax);
     start();
   }, 6);
 });
 
 asyncTest( "destroy", function(){
-  var isNew = new KnockoutApp.Model({name: "john"});
+  var notSaved = new KnockoutApp.Model({
+    name: "john"
+  });
 
-  equal(isNew.destroy(), false);
+  equal(notSaved.destroy(), false);
 
   var coll = new KnockoutApp.Collection(KnockoutApp.Model);
 
-  var nonNew = new KnockoutApp.Model({id: 66, name: "john"});
-  nonNew.baseUrl = "/tasks";
+  var saved = new KnockoutApp.Model({
+    id: 66,
+    name: "john"
+  });
 
-  coll.add(nonNew);
+  saved.baseUrl = "/tasks";
+
+  coll.add(saved);
 
   equal(coll.models().length, 1);
 
@@ -264,11 +304,12 @@ asyncTest( "destroy", function(){
     contentType: 'text/json'
   });
 
-  nonNew.destroy();
+  saved.destroy();
 
   setTimeout(function(){
-    strictEqual(nonNew.collection, undefined);
+    strictEqual(saved.collection, undefined);
     equal(coll.models().length, 0);
+
     $.mockjaxClear(ajax);
     start();
   }, 6);
