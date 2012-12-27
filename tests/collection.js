@@ -1,9 +1,5 @@
 module("Collection");
 
-test( "throws error if missing model", function(){
-  throws(KnockoutApp.Collection);
-});
-
 test( "model reference", function(){
   var model = KnockoutApp.Model.extend({
     baseUrl: "/tasks"

@@ -1,11 +1,8 @@
   // A collection stores models in an arrayObservable and provide methods for adding, removing, fetching... models
   var Collection = KnockoutApp.Collection = function(model){
 
-    // A model must be passed to the Collection as the first parameter
-    if(!model) throw "A model must be provided for a collection";
-
     // Set a reference to the model
-    this.model = model;
+    this.model = model || KnockoutApp.Model; //use KnockoutApp.Model or model??
 
     // Create an array observable to store all the models
     this.models = ko.observableArray();
