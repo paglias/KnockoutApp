@@ -5,32 +5,32 @@ KnockoutApp Documentation
 
 A model is used to store data and has methods to connect it with the server.
 
-	var Task = KnockoutApp.Model.extend({
+  var Task = KnockoutApp.Model.extend({
 
-		defaultAttributes: function(){
-			return {
-				title: ko.observable("A task to do"),
-				done: ko.observable(false)
-			};
-		}
+    defaultAttributes: function(){
+      return {
+        title: ko.observable("A task to do"),
+        done: ko.observable(false)
+      };
+    }
 
-	});
+  });
 
-	var task1 = new Task({
-		title: "my first task"
-	});
+  var task1 = new Task({
+    title: "my first task"
+  });
 
 ### extend
 KnockoutApp.Model.extend( [ protoProps, staticProps ] )
 
 Give a Model the possibility to be extended, accepts two objects: one to extend instance properties and the second one for static properties.
 
-	var Task = KnockoutApp.Model.Extend({
-		//instance properties and methods
-	},
-	{
-		//static properties and methods
-	});
+  var Task = KnockoutApp.Model.Extend({
+    //instance properties and methods
+  },
+  {
+    //static properties and methods
+  });
 
 Used to extend model prototype and static methods.
 
@@ -47,9 +47,9 @@ Instead of overriding the constructor use the *initialize* method that will be c
 
 Remember that KnockoutJS observable properties can't be defined in the model's prototype so *initialize* is the perfect place.
 
-	Task.prototype.initialize = function(){
-		//code code code
-	};
+  Task.prototype.initialize = function(){
+    //code code code
+  };
 
 ### id
 model.id()
@@ -72,12 +72,12 @@ You can also define KnockoutJS observable properties.
 
 *Must be a function since I've not implemented any clone method.*
 
-	Task.prototype.defaultAttributes = function(){
-		return {
-			title: ko.observable("default title"),
-			done: ko.observable(false)
-		}
-	}
+  Task.prototype.defaultAttributes = function(){
+    return {
+      title: ko.observable("default title"),
+      done: ko.observable(false)
+    }
+  }
 
 ### collection
 model.collection
@@ -129,12 +129,12 @@ model.modelName
 
 If you set this property, when using KnockoutApp.Sync then the data sent to the server will be wrapped in an object, which name is modelName ( this is useful when using Ruby on Rails that wants to receive update/create parameters wrapped in an object which name is the same of the model )
 
-	model.modelName = 'task';
+  model.modelName = 'task';
 
-	// Data will be sent wrapped into *task*
-	modelName: {
-		//model properties
-	}
+  // Data will be sent wrapped into *task*
+  modelName: {
+    //model properties
+  }
 
 ### validate
 model.validate()
@@ -157,12 +157,12 @@ KnockoutApp.Collection.extend( [instance properties, static properties] )
 
 Give a Collection the possibility to be extended, accepts two objects: one to extend instance properties and the second one for static properties.
 
-	var TasksList = KnockoutApp.Collection.Extend({
-		//instance properties and methods
-	},
-	{
-		//static properties and methods
-	});
+  var TasksList = KnockoutApp.Collection.Extend({
+    //instance properties and methods
+  },
+  {
+    //static properties and methods
+  });
 
 ### constructor / initialize
 new KnockoutApp.Collection( model )
@@ -171,11 +171,11 @@ Create a new collection instance passing the model class as the first parameter.
 
 Remember that KnockoutJS observable properties can't be defined in the model's prototype so *initialize* is the perfect place.
 
-	TasksList.prototype.initialize = function(){
-		//code code code
-	};
+  TasksList.prototype.initialize = function(){
+    //code code code
+  };
 
-	new TasksList(Task);
+  new TasksList(Task);
 
 ### models
 collection.models()
@@ -199,7 +199,7 @@ Used to make calls to the server using KnockoutApp.Sync.
 
 Can be either a function or a standard string, by default it's not defined.
 
-	collection.url = 'http://mywebsite.com'
+  collection.url = 'http://mywebsite.com'
 
 ### fetch
 collection.fetch( [ options ] )
@@ -215,20 +215,20 @@ Add on or more models (using an array) to the collection, also add a reference t
 
 If you set the second parameter to *TRUE* it'll call model.save() on each model.
 
-	var task = {
-		name: "my task",
-		done: false
-	};
+  var task = {
+    name: "my task",
+    done: false
+  };
 
-	// Will add a new model to the collection passing the task object as the attributes and create it on the server.
-	TasksList.add(task, true);
+  // Will add a new model to the collection passing the task object as the attributes and create it on the server.
+  TasksList.add(task, true);
 
 ### remove
 collection.remove( model_s )
 
 Call model.destroy() on each model passed to it (accepts also an array).
 
-	TasksList.remove([task1, task2, task3]);
+  TasksList.remove([task1, task2, task3]);
 
 ### toJSON
 collection.toJSON()
@@ -257,10 +257,10 @@ KnockoutApp.Utils.unwrapValue( object, value )
 
 If the passed value is a function call it or if it's a simple property simply return it.
 
-	//Define a model....
+  //Define a model....
 
-	// returns model.url or model.url()
-	KnockoutApp.Utils.unwrapValue(model, url);
+  // returns model.url or model.url()
+  KnockoutApp.Utils.unwrapValue(model, url);
 
 The first params is the object where the value is contatined, the second one is the value itself.
 After various attempts to get this working I've found the Underscore.js implementation of their [result](http://underscorejs.org/#result) method to be exactly what I needed so I adopted it, thanks a lot!
@@ -272,22 +272,22 @@ Given a *destination* object and a *params* object sets *params* properties into
 
 It's like any extend method in JS with the only differences that in *destination* you can have KnockoutJS observable properties that you can set by the *params* object without having to create a new observable or to call it passing a value ( observable("my value") ).
 
-	var destination = {
-		firstName: ko.observable("first name"),
-		lastName: ko.observable("last namse"),
-		nonObservable: "a normal string"
-	};
+  var destination = {
+    firstName: ko.observable("first name"),
+    lastName: ko.observable("last namse"),
+    nonObservable: "a normal string"
+  };
 
-	var params = {
-		firstName: "Matteo",
-		lastName: "Pagliazzi",
-		nonObservable: "another normal string"
-	};
+  var params = {
+    firstName: "Matteo",
+    lastName: "Pagliazzi",
+    nonObservable: "another normal string"
+  };
 
-	// Will set destination.firstName() to "Matteo" (keeping it an observable)
-	// destination.lastName() to "Pagliazzi" (keeping it too an observable)
-	// destination.nonObservable to "another normal string"
-	KnockoutApp.Utils.extendObjKnockout(destination, params);
+  // Will set destination.firstName() to "Matteo" (keeping it an observable)
+  // destination.lastName() to "Pagliazzi" (keeping it too an observable)
+  // destination.nonObservable to "another normal string"
+  KnockoutApp.Utils.extendObjKnockout(destination, params);
 
 ### extendClass
 KnockoutApp.Utils.extendClass( [ protoProps, staticProps ] )
@@ -299,9 +299,9 @@ KnockoutApp.Utils.isObservableArray( object )
 
 Returns *trueé if the value passed is an observable array.
 
-	var a = ko.observableArray();
+  var a = ko.observableArray();
 
-	//returns TRUE
-	KnockoutApp.Utils.isObservableArray(a);
+  //returns TRUE
+  KnockoutApp.Utils.isObservableArray(a);
 
 
