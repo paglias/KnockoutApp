@@ -11,7 +11,7 @@
     this.models = ko.observableArray();
 
     // Instead of overriding the function constructor use the initialize function to execute custom code on collection creation
-    // Knockout's observable properties can't be defined in the class prototype 
+    // Knockout's observable properties can't be defined in the class prototype
     // so this is the perfect place to use them.
     if(this.initialize) this.initialize.apply(this, arguments);
 
@@ -85,13 +85,13 @@
         if(typeof attrs !== 'object'){
           if(model.id() === attrs) return true;
           return false;
-        }       
+        }
 
         var result = true;
         for(var attr in attrs){
           if(model.attributes[attr] !== attrs[attr]){
             result = false;
-            break; 
+            break;
           }
         }
         return result;
@@ -130,4 +130,3 @@
       return result;
     }
   });
-  

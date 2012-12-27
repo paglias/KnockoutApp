@@ -5,7 +5,7 @@
 (function(){
 
   // Set a reference to the 'window' object and to KnockoutJS' 'ko' object
-  var root = this,      
+  var root = this,
       ko = root.ko;
 
   // Ensure KnockoutJS is loaded
@@ -16,7 +16,7 @@
 
   // KnockoutApp's version
   KnockoutApp.VERSION = "0.2.0";
-  
+
   // An object that stores all utils used by KnockoutApp
   var Utils = KnockoutApp.Utils = {
 
@@ -29,7 +29,7 @@
     // It is used in model constructor to extend the base object with the passed parameters
     // To extend normal objects use ko.utils.extend
     extendObjKnockout: function(destination, params){
-      for(var i in params){ 
+      for(var i in params){
         var param = params[i];
         if(typeof param === "object" && param !== null && destination[i] && !ko.isWriteableObservable(destination[i])) {
           Utils.extendObjKnockout(destination[i], param); //use this.appky???
@@ -54,7 +54,7 @@
     cloneObjKnockout: function(obj){
       if(ko.isWriteableObservable(obj)) return ko.observable(obj());
       if(obj === null || typeof obj !== 'object') return obj;
-      
+
       var temp = obj.constructor(); // give temp the original obj's constructor
       for (var key in obj) {
         temp[key] = Utils.cloneObjKnockout(obj[key]);
@@ -105,9 +105,9 @@
     wrapError: function(){
       var args = Array.prototype.slice.call(arguments);
       console.log("Error ", args);
-    } 
+    }
 
-  }; 
+  };
 
   // This is the base Model class in KnockoutApp
   var Model = KnockoutApp.Model = function(attributes, options){
@@ -121,7 +121,7 @@
     // If an 'attributes' object is passed as a parameter:
     if(attributes){
 
-      // In case it contains an 'id' (or the idAttribute property) property set **this.id()** value to it and delete it from the attributes object 
+      // In case it contains an 'id' (or the idAttribute property) property set **this.id()** value to it and delete it from the attributes object
       if(attributes[this.idAttribute]){
         this.id(attributes[this.idAttribute]);
         delete attributes[this.idAttribute];
@@ -144,7 +144,7 @@
     }, this);
 
     // Instead of overriding the function constructor use the initialize function to execute custom code on model creation
-    // Knockout's observable properties can't be defined in the class prototype 
+    // Knockout's observable properties can't be defined in the class prototype
     // so this is the perfect place to use them.
     if(this.initialize) this.initialize.apply(this, arguments);
 
@@ -153,7 +153,7 @@
   // Extend Model's prototype
   ko.utils.extend(Model.prototype, {
 
-    // An object with the default attributes for the model 
+    // An object with the default attributes for the model
     // It must be a function because no 'clone' method has been implemented so far, will be fixed in future versions
     // Here you can also use observable properties.
     defaultAttributes: {},
@@ -187,7 +187,7 @@
         delete data[self.idAttribute];
         self.attributes = Utils.extendObjKnockout(Utils.cloneObjKnockout(self.defaultAttributes), data);
       };
-      
+
       options.error = function(){
         Utils.wrapError(arguments);
       };
@@ -239,7 +239,7 @@
         };
 
         if(_options) ko.utils.extend(options, _options);
-        
+
         return this.sync.call(this, 'destroy', this, options);
       }
     },
@@ -265,7 +265,7 @@
     this.models = ko.observableArray();
 
     // Instead of overriding the function constructor use the initialize function to execute custom code on collection creation
-    // Knockout's observable properties can't be defined in the class prototype 
+    // Knockout's observable properties can't be defined in the class prototype
     // so this is the perfect place to use them.
     if(this.initialize) this.initialize.apply(this, arguments);
 
@@ -339,13 +339,13 @@
         if(typeof attrs !== 'object'){
           if(model.id() === attrs) return true;
           return false;
-        }       
+        }
 
         var result = true;
         for(var attr in attrs){
           if(model.attributes[attr] !== attrs[attr]){
             result = false;
-            break; 
+            break;
           }
         }
         return result;
@@ -384,7 +384,7 @@
       return result;
     }
   });
-  
+
   // Used to sync models to the server, it can be overriden to support, for example, HTML5 localStorage
   // Requires two parameters:
   //
@@ -405,7 +405,7 @@
 
     //Get the url of the model/collection (model.url or model.url())
     params.url = Utils.unwrapValue(model, 'url');
-    
+
     switch(method){
       case 'fetch':
         params.type = 'GET';
@@ -432,11 +432,11 @@
         params.type = 'DELETE';
         break;
     }
-    
+
     // Make and return an Ajax call merging the *options* object passed as the third parameter with the *params* object
     return root.$.ajax(ko.utils.extend(params, options));
   };
-    
+
   // Give extensibility to models and collections
   Collection.extend = Model.extend = Utils.extendClass;
 

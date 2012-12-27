@@ -18,7 +18,7 @@
 
     //Get the url of the model/collection (model.url or model.url())
     params.url = Utils.unwrapValue(model, 'url');
-    
+
     switch(method){
       case 'fetch':
         params.type = 'GET';
@@ -45,8 +45,7 @@
         params.type = 'DELETE';
         break;
     }
-    
+
     // Make and return an Ajax call merging the *options* object passed as the third parameter with the *params* object
     return root.$.ajax(ko.utils.extend(params, options));
   };
-    

@@ -10,7 +10,7 @@
     // It is used in model constructor to extend the base object with the passed parameters
     // To extend normal objects use ko.utils.extend
     extendObjKnockout: function(destination, params){
-      for(var i in params){ 
+      for(var i in params){
         var param = params[i];
         if(typeof param === "object" && param !== null && destination[i] && !ko.isWriteableObservable(destination[i])) {
           Utils.extendObjKnockout(destination[i], param); //use this.appky???
@@ -35,7 +35,7 @@
     cloneObjKnockout: function(obj){
       if(ko.isWriteableObservable(obj)) return ko.observable(obj());
       if(obj === null || typeof obj !== 'object') return obj;
-      
+
       var temp = obj.constructor(); // give temp the original obj's constructor
       for (var key in obj) {
         temp[key] = Utils.cloneObjKnockout(obj[key]);
@@ -86,6 +86,6 @@
     wrapError: function(){
       var args = Array.prototype.slice.call(arguments);
       console.log("Error ", args);
-    } 
+    }
 
-  }; 
+  };

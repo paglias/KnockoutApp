@@ -10,7 +10,7 @@
     // If an 'attributes' object is passed as a parameter:
     if(attributes){
 
-      // In case it contains an 'id' (or the idAttribute property) property set **this.id()** value to it and delete it from the attributes object 
+      // In case it contains an 'id' (or the idAttribute property) property set **this.id()** value to it and delete it from the attributes object
       if(attributes[this.idAttribute]){
         this.id(attributes[this.idAttribute]);
         delete attributes[this.idAttribute];
@@ -33,7 +33,7 @@
     }, this);
 
     // Instead of overriding the function constructor use the initialize function to execute custom code on model creation
-    // Knockout's observable properties can't be defined in the class prototype 
+    // Knockout's observable properties can't be defined in the class prototype
     // so this is the perfect place to use them.
     if(this.initialize) this.initialize.apply(this, arguments);
 
@@ -42,7 +42,7 @@
   // Extend Model's prototype
   ko.utils.extend(Model.prototype, {
 
-    // An object with the default attributes for the model 
+    // An object with the default attributes for the model
     // It must be a function because no 'clone' method has been implemented so far, will be fixed in future versions
     // Here you can also use observable properties.
     defaultAttributes: {},
@@ -76,7 +76,7 @@
         delete data[self.idAttribute];
         self.attributes = Utils.extendObjKnockout(Utils.cloneObjKnockout(self.defaultAttributes), data);
       };
-      
+
       options.error = function(){
         Utils.wrapError(arguments);
       };
@@ -128,7 +128,7 @@
         };
 
         if(_options) ko.utils.extend(options, _options);
-        
+
         return this.sync.call(this, 'destroy', this, options);
       }
     },

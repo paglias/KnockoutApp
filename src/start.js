@@ -1,7 +1,7 @@
 (function(){
 
   // Set a reference to the 'window' object and to KnockoutJS' 'ko' object
-  var root = this,      
+  var root = this,
       ko = root.ko;
 
   // Ensure KnockoutJS is loaded
@@ -12,4 +12,3 @@
 
   // KnockoutApp's version
   KnockoutApp.VERSION = "<%= pkg.version %>";
-  
