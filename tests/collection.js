@@ -4,7 +4,7 @@ test( "throws error if missing model", function(){
   throws(KnockoutApp.Collection);
 });
 
-test( "model reference", function(){  
+test( "model reference", function(){
   var model = KnockoutApp.Model.extend({
     baseUrl: "/tasks"
   });
@@ -14,7 +14,7 @@ test( "model reference", function(){
   equal(coll.model, model);
 });
 
-test( "model is an observable array", function(){
+test( "models is an observable array", function(){
   var coll = new KnockoutApp.Collection(KnockoutApp.Model);
 
   equal(KnockoutApp.Utils.isObservableArray(coll.models), true);
@@ -38,20 +38,21 @@ test( "initialize", function(){
 test( "sync", function(){
   var coll = KnockoutApp.Collection.extend({
     sync: function(){
-      return arguments;
+      return "sync overriden!";
     }
   });
 
   var instance = new coll(KnockoutApp.Model);
 
   //Check that collection.sync can be overriden
-  equal(instance.sync.call(instance, 'fetch', instance)[0], "fetch");
+  equal(instance.sync(), "sync overriden!");
 });
 
 asyncTest( "fetch", function(){
   var coll = KnockoutApp.Collection.extend({
     url: "/taskslist"
   });
+
   var model = KnockoutApp.Model.extend({
     defaultAttributes: {
       name: ko.observable("a task"),
@@ -76,7 +77,7 @@ asyncTest( "fetch", function(){
     }]
   });
 
-  instance.fetch(); 
+  instance.fetch();
 
   setTimeout(function(){
     equal(instance.models().length, 2);
@@ -92,6 +93,7 @@ asyncTest( "add", function(){
   var coll = KnockoutApp.Collection.extend({
     url: "/tasks"
   });
+
   var model = KnockoutApp.Model.extend({
     defaultAttributes: {
       name: ko.observable("a task"),
@@ -122,7 +124,7 @@ asyncTest( "add", function(){
     done: true
   }, new model({
     name: "multiple 2, instance"
-  })]); 
+  })]);
 
   setTimeout(function(){
     equal(instance.models().length, 3);
@@ -192,7 +194,6 @@ test( "find", function(){
   equal(coll.find({name: "name2"}).id(), 2);
   equal(coll.find({name: "name2", year: 2012}).id(), 3);
   equal(coll.find({year: 2012, name: "name2"}).id(), 3);
-
 });
 
 test( "where", function(){
@@ -210,17 +211,13 @@ test( "where", function(){
   equal(coll.where({gender: "female", name: "name2"}).length, 0);
   equal(coll.where({gender: "male", name: "name2"})[0].id(), 2);
   equal(coll.where({gender: "female", name: "name3"})[0].id(), 3);
-})
+});
 
 test( "toJSON", function(){
   var coll = new KnockoutApp.Collection(KnockoutApp.Model);
   coll.add([
-  {
-    name: ko.observable(1)
-  },
-  {
-    name: 2
-  }
+    { name: ko.observable(1) },
+    { name: 2 }
   ]);
 
   var res = coll.toJSON();

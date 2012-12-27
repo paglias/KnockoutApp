@@ -3,8 +3,8 @@ module("Utils");
 test( "isObservableArray", function(){
   var oA = ko.observableArray([]);
   var o = ko.observable("");
-  equal( KnockoutApp.Utils.isObservableArray(oA) , true );
-  equal( KnockoutApp.Utils.isObservableArray(o) , false );
+  equal(KnockoutApp.Utils.isObservableArray(oA), true);
+  equal(KnockoutApp.Utils.isObservableArray(o), false);
 });
 
 test( "extendObjKnockout", function(){
@@ -34,13 +34,13 @@ test( "extendObjKnockout", function(){
 
   KnockoutApp.Utils.extendObjKnockout(destination, params);
 
-  equal( destination.firstName(), "Matteo" );
-  equal( destination.lastName(), "lastName" );
-  equal( destination.list().toString(), [1, 2, 3] );
-  equal( destination.sub1.a, "changed" );
-  equal( destination.sub1.b, "sub1 b" );
-  equal( destination.sub1.c, "added" );
-  equal( destination.sub2, "a string" );
+  equal(destination.firstName(), "Matteo");
+  equal(destination.lastName(), "lastName");
+  equal(destination.list().toString(), [1, 2, 3]);
+  equal(destination.sub1.a, "changed");
+  equal(destination.sub1.b, "sub1 b");
+  equal(destination.sub1.c, "added");
+  equal(destination.sub2, "a string");
 
 });
 
@@ -91,11 +91,11 @@ test( "extendClass", function(){
   var superProtoProp = subClass.__super__.protoProp;
   var superStaticProp = subClass.__super__.constructor.staticProp;
 
-  equal( subClass.staticProp, "subClass staticProp that override Class.staticProp" );
-  equal( subClassInstance.constructorProp, "subClass' constructorProp" );
-  equal( subClassInstance.subProtoProp(), "Class' protoProp called by subClass' subProtoProp" );
-  equal( superProtoProp, "Class' protoProp" );
-  equal( superStaticProp, "Class' staticProp" );
+  equal(subClass.staticProp, "subClass staticProp that override Class.staticProp");
+  equal(subClassInstance.constructorProp, "subClass' constructorProp");
+  equal(subClassInstance.subProtoProp(), "Class' protoProp called by subClass' subProtoProp");
+  equal(superProtoProp, "Class' protoProp");
+  equal(superStaticProp, "Class' staticProp");
 });
 
 test( "unwrapValue", function(){
@@ -108,6 +108,6 @@ test( "unwrapValue", function(){
 
   var instance = new func();
 
-  equal( KnockoutApp.Utils.unwrapValue(instance, 'a'), "a property..." );
-  equal( KnockoutApp.Utils.unwrapValue(instance, 'b'), "a property..." );
+  equal(KnockoutApp.Utils.unwrapValue(instance, 'a'), "a property...");
+  equal(KnockoutApp.Utils.unwrapValue(instance, 'b'), "a property...");
 });
