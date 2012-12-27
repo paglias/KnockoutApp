@@ -79,10 +79,6 @@
         self.attributes = Utils.extendObjKnockout(defaults, data);
       };
 
-      options.error = function(){
-        Utils.wrapError(arguments);
-      };
-
       if(_options) ko.utils.extend(options, _options);
 
       return this.sync.call(this, 'fetch', this, options);
@@ -102,10 +98,6 @@
         if(method === 'create') self.id(data[self.idAttribute]);
       };
 
-      options.error = function(){
-        Utils.wrapError(arguments);
-      };
-
       if(_options) ko.utils.extend(options, _options);
 
       return this.sync.call(this, method, this, options);
@@ -114,31 +106,29 @@
     // Destroy the model on the server and remove it from its collection (if exists)
     // Options for the Ajax call can be passed as a parameter
     destroy: function(_options){
-      if(this.isNew()){
-        if(this.collection){
-          this.collection.models.remove(this);
-          delete this.collection;
+      var self = this,
+          options = {};
+
+      options.success = function(){
+        if(self.collection){
+          self.collection.models.remove(self);
+          delete self.collection;
         }
+      };
+
+      if(_options) ko.utils.extend(options, _options);
+
+      if(this.isNew()){
+        options.success();
         return false;
-      }else if(!this.isNew()){
-        var options = {},
-            self = this;
-
-        options.success = function(data){
-          if(self.collection){
-            self.collection.models.remove(self);
-            delete self.collection
-          }
-        };
-
-        options.error = function(){
-          Utils.wrapError(arguments);
-        };
-
-        if(_options) ko.utils.extend(options, _options);
-
-        return this.sync.call(this, 'destroy', this, options);
       }
+
+      if(!options.wait){
+        options.success();
+        delete options.success;
+      }
+
+      return this.sync.call(this, 'destroy', this, options);
     },
 
     // Used for serialization, returns an object that contains model's attributes and its id
