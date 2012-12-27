@@ -20,7 +20,8 @@
       //
       // Using **Utils.extendObjKnockout** ensured that observable properties inside *this.defaultAttributes()*
       // are correctly set into *this.attributes*
-      this.attributes = Utils.extendObjKnockout(Utils.cloneObjKnockout(this.defaultAttributes), attributes);
+      var defaults = Utils.cloneObjKnockout(this.defaultAttributes);
+      this.attributes = Utils.extendObjKnockout(defaults, attributes);
     }
 
     // This function allows to be passed, as the second parameter, a reference to a **Collection**.
@@ -74,7 +75,8 @@
 
       options.success = function(data){
         delete data[self.idAttribute];
-        self.attributes = Utils.extendObjKnockout(Utils.cloneObjKnockout(self.defaultAttributes), data);
+        var defaults = Utils.cloneObjKnockout(self.defaultAttributes);
+        self.attributes = Utils.extendObjKnockout(defaults, data);
       };
 
       options.error = function(){
@@ -113,14 +115,20 @@
     // Options for the Ajax call can be passed as a parameter
     destroy: function(_options){
       if(this.isNew()){
-        if(this.collection) this.collection.models.remove(this);
+        if(this.collection){
+          this.collection.models.remove(this);
+          delete this.collection;
+        }
         return false;
       }else if(!this.isNew()){
         var options = {},
             self = this;
 
         options.success = function(data){
-          if(self.collection) self.collection.models.remove(self);
+          if(self.collection){
+            self.collection.models.remove(self);
+            delete self.collection
+          }
         };
 
         options.error = function(){

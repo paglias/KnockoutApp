@@ -267,6 +267,7 @@ asyncTest( "destroy", function(){
   nonNew.destroy();
 
   setTimeout(function(){
+    strictEqual(nonNew.collection, undefined);
     equal(coll.models().length, 0);
     $.mockjaxClear(ajax);
     start();
