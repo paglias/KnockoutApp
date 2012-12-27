@@ -175,17 +175,35 @@ asyncTest( "create (save)", function(){
 
   instance.save();
 
+  var instance2 = new model({name: "my task to be validated", done: false});
+  instance2.validate = function(){
+    return "validation failed...";
+  };
+
+  var validateResult = false;
+
+  instance2.save({
+    success: function(){
+      validateResult = true;
+    }
+  })
+
   setTimeout(function(){
     equal(instance.id(), 55);
     equal(instance.attributes.name(), "my task");
     equal(instance.attributes.done(), false);
+
+    equal(instance2.validate(), "validation failed...");
+    equal(validateResult, false);
+
     $.mockjaxClear(ajax);
     start();
   }, 6);
 });
 
 asyncTest( "update (save)", function(){
-  var result = false;
+  var result = false,
+      resultValidate = false;
 
   var model = KnockoutApp.Model.extend({
     baseUrl: "/tasks",
@@ -214,7 +232,19 @@ asyncTest( "update (save)", function(){
     }
   });
 
+  instance.validate = function(){
+    return "validation failed...";
+  };
+
+  instance.save({
+    success: function(data){
+      resultValidate = true;
+    }
+  })
+
   setTimeout(function(){
+    equal(resultValidate, false);
+    equal(instance.validate(), "validation failed...");
     equal(result, true);
     $.mockjaxClear(ajax);
     start();
