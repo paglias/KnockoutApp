@@ -5,7 +5,7 @@
       ko = root.ko;
 
   // Ensure KnockoutJS is loaded
-  if(typeof ko === 'undefined') throw "knockoutJS must be loaded to use KnockoutApp";
+  if(typeof ko === 'undefined') throw "KnockoutJS must be loaded to use KnockoutApp";
 
   // Create a namespace
   var KnockoutApp = root.KnockoutApp = {};
