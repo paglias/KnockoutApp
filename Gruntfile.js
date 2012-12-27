@@ -13,7 +13,8 @@ module.exports = function(grunt) {
 
     concat: {
       options: {
-        banner: '<%= banner %>'
+        banner: '<%= banner %>',
+        process: true
       },
       build: {
         src: ['src/start.js', 'src/utils.js', 'src/model.js', 'src/collection.js', 'src/sync.js', 'src/end.js'],
