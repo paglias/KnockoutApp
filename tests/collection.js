@@ -111,16 +111,22 @@ asyncTest( "add", function(){
     }
   });
 
-  instance.add({
+  var model1 = new model({
     name: "single"
-  }, true);
+  })
 
-  instance.add([{
+  instance.add(model1, true);
+
+  model2 = new model({
     name: "multiple 1, attributes",
     done: true
-  }, new model({
-    name: "multiple 2, instance"
-  })]);
+  });
+
+  model3 = new model({
+    name: "multiple 2, instance",
+  });
+
+  instance.add([model2, model3]);
 
   setTimeout(function(){
     equal(instance.models().length, 3);
