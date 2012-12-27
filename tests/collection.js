@@ -159,7 +159,7 @@ asyncTest( "remove", function(){
     type: 'DELETE',
     url: '/tasks/1',
     responseTime: 5,
-    contentType: 'text/json',
+    contentType: 'text/json'
   });
 
   coll.remove(coll.models()[0]);
@@ -176,6 +176,41 @@ asyncTest( "remove", function(){
     start();
   }, 6);
 });
+
+test( "find", function(){
+  var coll = new KnockoutApp.Collection(KnockoutApp.Model);
+
+  coll.add([
+    {id: 1, name: "name1"},
+    {id: 2, name: "name2"},
+    {id: 3, name: "name2", year: 2012}
+  ]);
+
+  strictEqual(coll.find(), false);
+  equal(coll.find(1).id(), 1);
+  equal(coll.find(2).attributes.name, "name2");
+  equal(coll.find({name: "name2"}).id(), 2);
+  equal(coll.find({name: "name2", year: 2012}).id(), 3);
+  equal(coll.find({year: 2012, name: "name2"}).id(), 3);
+
+});
+
+test( "where", function(){
+  var coll = new KnockoutApp.Collection(KnockoutApp.Model);
+
+  coll.add([
+    {id: 1, name: "name1", gender: "female"},
+    {id: 2, name: "name2", gender: "male"},
+    {id: 3, name: "name3", gender: "female"}
+  ]);
+
+  deepEqual(coll.where(), []);
+  equal(coll.where({gender: "male"}).length, 1);
+  equal(coll.where({gender: "female"}).length, 2);
+  equal(coll.where({gender: "female", name: "name2"}).length, 0);
+  equal(coll.where({gender: "male", name: "name2"})[0].id(), 2);
+  equal(coll.where({gender: "female", name: "name3"})[0].id(), 3);
+})
 
 test( "toJSON", function(){
   var coll = new KnockoutApp.Collection(KnockoutApp.Model);

@@ -79,6 +79,46 @@
       });
     },
 
+    find: function(attrs){
+      if(!attrs) return false;
+      return ko.utils.arrayFirst(this.models(), function(model){
+        if(typeof attrs !== 'object'){
+          if(model.id() === attrs) return true;
+          return false;
+        }       
+
+        var result = true;
+        for(var attr in attrs){
+          if(model.attributes[attr] !== attrs[attr]){
+            result = false;
+            break; 
+          }
+        }
+        return result;
+      });
+    },
+
+    where: function(attrs){
+      if(!attrs) return [];
+      return ko.utils.arrayFilter(this.models(), function(model){
+        var result = true;
+
+        for(var attr in attrs){
+          if(model.idAttribute === attr && model.id() !== attrs[attr]){ //don't know if it should work with id...
+            result = false;
+            break;
+          }
+
+          if(model.attributes[attr] !== attrs[attr]){
+            result = false;
+            break;
+          }
+        }
+
+        return result;
+      });
+    },
+
     // Used for serialization, returns an array containing all the models in the collection serialized calling model.toJSON()
     toJSON: function(){
       var result = [];
