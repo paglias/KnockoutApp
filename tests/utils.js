@@ -44,6 +44,27 @@ test( "extendObjKnockout", function(){
 
 });
 
+test( "cloneObjKnockout", function(){
+  var original = {
+    a: ko.observable("a"),
+    b: "b"
+  };
+
+  var cloned = KnockoutApp.Utils.cloneObjKnockout(original);
+
+  cloned.a("a cloned");
+  equal(original.a(), "a");
+
+  cloned.b = "cloned b";
+  equal(original.b, "b");
+
+  original.a("a original");
+  equal(cloned.a(), "a cloned");
+
+  original.b = "original b";
+  equal(cloned.b, "cloned b");
+});
+
 test( "extendClass", function(){
   var Class = function(){
     this.constructorProp = "Class' constructorProp";
