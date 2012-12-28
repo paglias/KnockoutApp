@@ -1,87 +1,86 @@
-var Task = KnockoutApp.Model.extend({
+(function(){
 
-  // Define the default values for the model's attributes
-  defaultAttributes: {
-    title: ko.observable("a task"),
-    done: ko.observable(false)
-  },
+  var Task = KnockoutApp.Model.extend({
 
-  initialize: function(){
+    // Define the default values for the model's attributes
+    defaultAttributes: {
+      title: ko.observable("a task"),
+      done: ko.observable(false)
+    },
 
-    // Set up a dirty flag (not included by default, see dirty-flag.js in this folder)
-    var isInitiallyDirty = this.isNew() === true ? true : false;
-    this.status = new KnockoutApp.Utils.dirtyFlag(this.attributes, isInitiallyDirty);
+    initialize: function(){
 
-    // Save the model each time it changes
-    this.saveOnchange = ko.computed(function(){
-      var self = this;
+      // Set up a dirty flag (not included by default, see dirty-flag.js in this folder)
+      var isInitiallyDirty = this.isNew() === true ? true : false;
+      this.status = new KnockoutApp.Utils.dirtyFlag(this.attributes, isInitiallyDirty);
 
-      if(this.status.isChanged() === true){
-        this.save({
-          success: function(){
-            self.status.reset();
-          }
-        });
-      }
-    }, this);
+      // Save the model each time it changes
+      this.saveOnchange = ko.computed(function(){
+        var self = this;
 
-    this.editing = ko.observable(false);
-    this.edit = function(){
-      this.editing(true);
-    };
+        if(this.status.isChanged() === true){
+          this.save({
+            success: function(){
+              self.status.reset();
+            }
+          });
+        }
+      }, this);
 
-  }
+      this.editing = ko.observable(false);
 
-});
+    },
 
-//Extend the base collection
-var TaskList = KnockoutApp.Collection.extend({
-
-  sync: LocalStorageSync,
-
-  initialize: function(){
-    this.show = ko.observable('all');
-
-    this.toShow = ko.computed(function(){
-      switch ( this.show() ) {
-      case 'done':
-        return this.where({done: true});
-
-      case 'todo':
-        return this.where({done: false});
-
-      default:
-        return this.models();
-      }
-    }, this);
-
-  }
-
-});
-
-//Create a new collection
-var tasklist = new TaskList(Task);
-tasklist.localStorageStore = new localStorageStore("knockout-app-todo-example");
-tasklist.fetch();
-
-var ViewModel = function(){
-  var self = this;
-  self.collection = tasklist;
-
-  self.addFromForm = function(elements){
-    var input = $(elements).children();
-    if ( input.val().length < 1 ) { //use validation
-      return false;
+    edit: function(){
+      this.editing(!this.editing());
     }
 
-    self.collection.add({
-      title: input.val()
-    });
+  });
 
-    input.val("");
-  };
-};
+  //Extend the base collection
+  var TaskList = KnockoutApp.Collection.extend({
 
-$(function() {
-  ko.applyBindings(new ViewModel());
-});
+    sync: LocalStorageSync,
+
+    initialize: function(){
+      this.show = ko.observable('all');
+
+      this.toShow = ko.computed(function(){
+        switch ( this.show() ) {
+        case 'done':
+          return this.where({done: true});
+
+        case 'todo':
+          return this.where({done: false});
+
+        default:
+          return this.models();
+        }
+      }, this);
+
+      this.current = ko.observable("");
+    },
+
+    addInput: function() {
+      var current = this.current().trim();
+      if (current) {
+        this.add({title: current});
+        this.current('');
+      }
+    }
+
+  });
+
+  //Create a new collection
+  var tasklist = new TaskList(Task);
+
+  //Set the localstorage store and fetch tasks
+  tasklist.localStorageStore = new localStorageStore("knockout-app-todo-example");
+  tasklist.fetch();
+
+  $(function() {
+    ko.applyBindings(tasklist);
+  });
+
+})();
+

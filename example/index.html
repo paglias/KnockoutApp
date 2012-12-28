@@ -1,13 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+	<head>
+		<meta charset="utf-8">
 
-    <title>KnockoutApp ToDo Example</title>
-    <meta name="author" content="">
-
-    <!-- Le styles -->
-    <link href="./style.css" rel="stylesheet">
+		<title>KnockoutApp Todo Example</title>
+		<link href="./style.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -20,36 +17,53 @@
     <script type="text/javascript" src="../knockout.app.min.js"></script>
     <script type="text/javascript" src="./localstorage-sync.js"></script>
     <script type="text/javascript" src="./dirty-flag.js"></script>
+    <script type="text/javascript" src="./bindings.js"></script>
+
     <script type="text/javascript" src="./app.js"></script>
 
-  </head>
+	</head>
+	<body>
+		<section id="todoapp">
+			<header id="header">
+				<h1>KnockoutApp Todo Example</h1>
+				<input id="new-todo" data-bind="value: current, valueUpdate: 'afterkeydown', enterKey: addInput" placeholder="What needs to be done?" autofocus>
+			</header>
 
-  <body>
+			<section id="main" data-bind="visible: models().length">
 
-    <h1>KnockoutApp ToDo Example</h1>
-    <div id="wrapper">
+				<ul id="todo-list" data-bind="foreach: toShow">
+					<li data-bind="css: { completed: attributes.done, editing: editing }">
 
-      <form data-bind="submit: addFromForm" id="addForm">
-        <input type="text" placeholder="What's to do?" />
-      </form>
+						<div class="view">
+							<input class="toggle" data-bind="checked: attributes.done" type="checkbox">
+							<label data-bind="text: attributes.title, event: { dblclick: edit}"></label>
+							<button class="destroy" data-bind="click: destroy"></button>
+						</div>
 
-      <ul data-bind="foreach: collection.toShow" id="list">
-        <li>
-          <div data-bind="visible: !editing()" class="task">
-            <div data-bind="css: { checkboxDone: attributes.done }, click: function() { attributes.done(!attributes.done()) }" class="checkbox">&#10004;</div>
-            <div data-bind="text: attributes.title, css: { nameDone: attributes.done }, click: edit" class="name"></div>
-            <div data-bind="click: destroy" class="remove">&times;</div>
-          </div>
-          <input data-bind="visible: editing, hasfocus: editing, value: attributes.title" />
-        </li>
-      </ul>
+						<input class="edit" data-bind="value: attributes.title, valueUpdate: 'afterkeydown', enterKey: edit, selectAndFocus: editing, event: { blur: edit }">
+					</li>
+				</ul>
+			</section>
+			<footer id="footer">
+				<ul id="filters">
+					<li>
+						<a href="" data-bind="click: function() {show('all')}, css: { selected: show() == 'all' }">Todo</a>
+					</li>
+					<li>
+						<a href="" data-bind="click: function() {show('todo')}, css: { selected: show() == 'todo' }">Todo</a>
+					</li>
+					<li>
+						<a href="" data-bind="click: function() {show('done')}, css: { selected: show() == 'done' }">Done</a>
+					</li>
+				</ul>
+			</footer>
+		</section>
 
-      <span> Show:</span>
-      <a href="" data-bind="click: function() {collection.show('all')}">All</a>
-      <a href="" data-bind="click: function() {collection.show('done')}">Done</a>
-      <a href="" data-bind="click: function() {collection.show('todo')}">Todo</a>
+		<footer id="info">
+			<span data-bind="visible: models().length">Double-click to edit a todo</span>
+			<p>Template from <a href="http://todomvc.com">TodoMVC</a>, originally created by <a href="http://sindresorhus.com/">Sindre Sorhus</a></p>
+			<p>Custom bindings used in this example are taken by <a href="https://github.com/addyosmani/todomvc/tree/gh-pages/architecture-examples/knockoutjs">KnockoutJS TodoMVC App</a></p>
+		</footer>
 
-    </div> <!-- /#wrapper -->
-
-  </body>
+	</body>
 </html>
