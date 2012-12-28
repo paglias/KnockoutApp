@@ -69,7 +69,6 @@
       child.prototype.constructor = child;
       child.__super__ = parent.prototype;
 
-      child.extend = parent.extend;
       return child;
     },
 
