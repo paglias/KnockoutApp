@@ -29,18 +29,18 @@
         break;
       case 'create':
         params.type = 'POST';
-        if(model.modelName){
+        if(model.name){
           params.data = {};
-          params.data[model.modelName] = model.toJSON();
+          params.data[model.name] = model.toJSON();
         }else{
           params.data = model.toJSON();
         }
         break;
       case 'update':
         params.type = 'PUT';
-        if(model.modelName){
+        if(model.name){
           params.data = {};
-          params.data[model.modelName] = model.toJSON();
+          params.data[model.name] = model.toJSON();
         }else{
           params.data = model.toJSON();
         }

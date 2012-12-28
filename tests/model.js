@@ -13,7 +13,7 @@ test( "initialize", function(){
     first: "option 1" // options
   });
 
-  equal( instance.property, "initialize with first option 1");
+  equal(instance.property, "initialize with first option 1");
 });
 
 test( "attributes and defaultAttributes", function(){
@@ -28,9 +28,9 @@ test( "attributes and defaultAttributes", function(){
     lastName: "Pagliazzi"
   });
 
-  equal( instance.attributes.firstName(), "firstName" );
-  equal( instance.attributes.lastName(), "Pagliazzi" );
-  equal( instance.defaultAttributes.lastName(), "lastName" );
+  equal(instance.attributes.firstName(), "firstName" );
+  equal(instance.attributes.lastName(), "Pagliazzi" );
+  equal(instance.defaultAttributes.lastName(), "lastName" );
 });
 
 test( "collection", function(){
@@ -161,7 +161,7 @@ asyncTest( "create (save)", function(){
       name: ko.observable("a task"),
       done: ko.observable(false)
     },
-    modelName: "task"
+    name: "task"
   });
 
   var instance = new model({
@@ -174,7 +174,7 @@ asyncTest( "create (save)", function(){
     url: '/tasks',
     responseTime: 5,
     contentType: 'text/json',
-    data: { // check that the data sent is wrapped in model.modelName
+    data: { // check that the data sent is wrapped in model.name
       task: {
         name: "my task",
         done: false
