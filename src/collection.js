@@ -82,7 +82,7 @@
 
         var result = true;
         for(var attr in attrs){
-          if(model.attributes[attr] !== attrs[attr]){
+          if(ko.utils.unwrapObservable(model.attributes[attr]) !== attrs[attr]){
             result = false;
             break;
           }
@@ -102,7 +102,7 @@
             break;
           }
 
-          if(model.attributes[attr] !== attrs[attr]){
+          if(ko.utils.unwrapObservable(model.attributes[attr]) !== attrs[attr]){
             result = false;
             break;
           }
