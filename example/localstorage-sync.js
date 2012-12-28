@@ -7,7 +7,7 @@ var localStorageStore = function(name){
 LocalStorageSync = function(method, model, options){
 
   if(typeof localStorage.setItem === 'undefined') throw "localStorage not avalaible";
-  if(typeof model.localStorageStore === "undefined" && typeof model.collection.localStorageStore === "undefined") throw "Missing a localStorage Store";
+  if(typeof model.localStorageStore === "undefined" && (typeof model.collection === "undefined" || typeof model.collection.localStorageStore === "undefined")) throw "Missing a localStorage Store";
 
   var store = model.localStorageStore || model.collection.localStorageStore;
 
@@ -27,7 +27,7 @@ LocalStorageSync = function(method, model, options){
         }
         response = store.data;
       }else{
-        response = store.data[model.id()]
+        response = store.data[model.id()];
       }
       break;
     case 'create':
@@ -45,12 +45,12 @@ LocalStorageSync = function(method, model, options){
     case 'destroy':
       delete store.data[model.id()];
       save();
-      response = true;      
+      response = true;
       break;
   }
 
   if(response && options.success){
-    options.success(response)
+    options.success(response);
   }else if(!response && options.error){
     options.error(response);
   }
