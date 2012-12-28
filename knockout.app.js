@@ -1,4 +1,4 @@
-/*! Knockout App - v0.2.0 - 2012-12-27
+/*! Knockout App - v0.2.0 - 2012-12-28
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2012 Matteo Pagliazzi; Licensed MIT */
 
@@ -190,10 +190,6 @@
         self.attributes = Utils.extendObjKnockout(defaults, data);
       };
 
-      options.error = function(){
-        Utils.wrapError(arguments);
-      };
-
       if(_options) ko.utils.extend(options, _options);
 
       return this.sync.call(this, 'fetch', this, options);
@@ -213,10 +209,6 @@
         if(method === 'create') self.id(data[self.idAttribute]);
       };
 
-      options.error = function(){
-        Utils.wrapError(arguments);
-      };
-
       if(_options) ko.utils.extend(options, _options);
 
       return this.sync.call(this, method, this, options);
@@ -225,31 +217,31 @@
     // Destroy the model on the server and remove it from its collection (if exists)
     // Options for the Ajax call can be passed as a parameter
     destroy: function(_options){
-      if(this.isNew()){
-        if(this.collection){
-          this.collection.models.remove(this);
-          delete this.collection;
+      var self = this,
+          options = {};
+
+      options.success = function(){
+        if(self.collection){
+          self.collection.models.remove(self);
+          delete self.collection;
         }
+      };
+
+      if(_options) ko.utils.extend(options, _options);
+
+      if(this.isNew()){
+        options.success();
         return false;
-      }else if(!this.isNew()){
-        var options = {},
-            self = this;
-
-        options.success = function(data){
-          if(self.collection){
-            self.collection.models.remove(self);
-            delete self.collection
-          }
-        };
-
-        options.error = function(){
-          Utils.wrapError(arguments);
-        };
-
-        if(_options) ko.utils.extend(options, _options);
-
-        return this.sync.call(this, 'destroy', this, options);
       }
+
+      var xhr = this.sync.call(this, 'destroy', this, options);
+
+      if(!options.wait){
+        options.success();
+        delete options.success;
+      }
+
+      return xhr;
     },
 
     // Used for serialization, returns an object that contains model's attributes and its id
@@ -263,11 +255,8 @@
   // A collection stores models in an arrayObservable and provide methods for adding, removing, fetching... models
   var Collection = KnockoutApp.Collection = function(model){
 
-    // A model must be passed to the Collection as the first parameter
-    if(!model) throw "A model must be provided for a collection";
-
     // Set a reference to the model
-    this.model = model;
+    this.model = model || KnockoutApp.Model; //use KnockoutApp.Model or model??
 
     // Create an array observable to store all the models
     this.models = ko.observableArray();
@@ -301,10 +290,6 @@
         }
 
         if(toAdd.length > 0) self.add(toAdd);
-      };
-
-      options.error = function(){
-        Utils.wrapError(arguments);
       };
 
       if(options) ko.utils.extend(options, _options);
@@ -351,7 +336,7 @@
 
         var result = true;
         for(var attr in attrs){
-          if(model.attributes[attr] !== attrs[attr]){
+          if(ko.utils.unwrapObservable(model.attributes[attr]) !== attrs[attr]){
             result = false;
             break;
           }
@@ -371,7 +356,7 @@
             break;
           }
 
-          if(model.attributes[attr] !== attrs[attr]){
+          if(ko.utils.unwrapObservable(model.attributes[attr]) !== attrs[attr]){
             result = false;
             break;
           }
@@ -411,6 +396,10 @@
 
     params.dataType = 'json';
 
+    params.error = function(){
+      Utils.wrapError(arguments);
+    };
+
     //Get the url of the model/collection (model.url or model.url())
     params.url = Utils.unwrapValue(model, 'url');
 
@@ -420,18 +409,18 @@
         break;
       case 'create':
         params.type = 'POST';
-        if(model.modelName){
+        if(model.name){
           params.data = {};
-          params.data[model.modelName] = model.toJSON();
+          params.data[model.name] = model.toJSON();
         }else{
           params.data = model.toJSON();
         }
         break;
       case 'update':
         params.type = 'PUT';
-        if(model.modelName){
+        if(model.name){
           params.data = {};
-          params.data[model.modelName] = model.toJSON();
+          params.data[model.name] = model.toJSON();
         }else{
           params.data = model.toJSON();
         }
