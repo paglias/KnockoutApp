@@ -123,12 +123,14 @@
         return false;
       }
 
+      var xhr = this.sync.call(this, 'destroy', this, options);
+
       if(!options.wait){
         options.success();
         delete options.success;
       }
 
-      return this.sync.call(this, 'destroy', this, options);
+      return xhr;
     },
 
     // Used for serialization, returns an object that contains model's attributes and its id
