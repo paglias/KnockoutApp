@@ -45,7 +45,7 @@
 
     // Add one or more models to collection and optionally create them on the server setting the 'create' parameter to 'true'
     // It will also add a reference to the collection inside each model
-    add: function(model_s, create){
+    add: function(model_s, create, options){
       var toAdd = model_s instanceof Array ? model_s : [model_s],
           self = this;
 
@@ -58,17 +58,17 @@
           model = new self.model(attributes, {collection: self});
         }
         self.models.push(model);
-        if(create) model.save();
+        if(create) model.save(options);
       });
     },
 
     // Remove one or more models from the colection and destroy them on the server
     // It simply calls model.destroy() on each model is passed to it
-    remove: function(model_s){
+    remove: function(model_s, options){
       var toRemove = model_s instanceof Array ? model_s : [model_s];
 
       ko.utils.arrayForEach(toRemove, function(model){
-        model.destroy();
+        model.destroy(options);
       });
     },
 
