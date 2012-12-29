@@ -25,8 +25,9 @@
     // Fetch the models on the server and add them to the collection, this.url must be defined either as a string or a function
     // Options for the Ajax call can be passed as a parameter
     fetch: function(_options){
-      var self = this,
-          options = {};
+      var self = this, //collection
+          options = _options || {},
+          success = options.success; //custome success passed in _options
 
       options.success = function(data){
         var toAdd = [];
@@ -36,9 +37,8 @@
         }
 
         if(toAdd.length > 0) self.add(toAdd);
+        if(success) success(self, data);
       };
-
-      if(options) ko.utils.extend(options, _options);
 
       return this.sync.call(this, 'fetch', this, options);
     },

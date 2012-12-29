@@ -70,16 +70,16 @@
     // Fetch the model on the server and replace its attributes with the one fetched
     // Options for the Ajax call can be passed as a parameter
     fetch: function(_options){
-      var self = this,
-          options = {};
+      var self = this, //model
+          options = _options || {},
+          success = options.success; //custom success passed in _options
 
       options.success = function(data){
         delete data[self.idAttribute];
         var defaults = Utils.cloneObjKnockout(self.defaultAttributes);
         self.attributes = Utils.extendObjKnockout(defaults, data);
+        if(success) success(self, data);
       };
-
-      if(_options) ko.utils.extend(options, _options);
 
       return this.sync.call(this, 'fetch', this, options);
     },
@@ -90,15 +90,15 @@
     save: function(_options){
       if(this.validate() !== true) return false;
 
-      var self = this,
-          options = {},
+      var self = this, //model
+          options = _options || {},
+          success = options.success, //custome success passed in _options
           method = this.isNew() ? 'create' : 'update';
 
       options.success = function(data){
         if(method === 'create') self.id(data[self.idAttribute]);
+        if(success) success(self, data);
       };
-
-      if(_options) ko.utils.extend(options, _options);
 
       return this.sync.call(this, method, this, options);
     },
@@ -106,17 +106,17 @@
     // Destroy the model on the server and remove it from its collection (if exists)
     // Options for the Ajax call can be passed as a parameter
     destroy: function(_options){
-      var self = this,
-          options = {};
+      var self = this, //model
+          options = _options || {},
+          success = options.success; //custome success passed in _options
 
       options.success = function(){
         if(self.collection){
           self.collection.models.remove(self);
           delete self.collection;
         }
+        if(success) success(self, data);
       };
-
-      if(_options) ko.utils.extend(options, _options);
 
       if(this.isNew()){
         options.success();

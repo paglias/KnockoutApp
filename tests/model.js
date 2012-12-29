@@ -127,7 +127,8 @@ asyncTest( "fetch", function(){
   var instance = new model({
     id: 44,
     name: "my task",
-    done: false
+    done: false,
+    attr: "onother attr..."
   });
 
   var ajax = $.mockjax({
@@ -141,12 +142,17 @@ asyncTest( "fetch", function(){
     }
   });
 
-  instance.fetch();
+  instance.fetch({
+    success: function(model, data){
+      model.attributes.done(!data.done); //check for success override
+    }
+  });
 
   setTimeout(function(){
     equal(instance.id(), 44);
     equal(instance.attributes.name(), "my fetched task");
-    equal(instance.attributes.done(), false);
+    equal(instance.attributes.attr, undefined);
+    equal(instance.attributes.done(), true);
     $.mockjaxClear(ajax);
     start();
   }, 6);
