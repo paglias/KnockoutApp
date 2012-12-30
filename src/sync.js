@@ -9,7 +9,7 @@
   KnockoutApp.Sync = function(method, model, _options){
 
     // Ensure jQuery is loaded
-    if(typeof root.$ === 'undefined') throw "jQuery is necessary to make Ajax calls";
+    if(typeof $ === 'undefined') throw "jQuery is necessary to make Ajax calls";
 
     var params = {},
         options = _options || {};
@@ -51,5 +51,5 @@
     }
 
     // Make and return an Ajax call merging the *options* object passed as the third parameter with the *params* object
-    return root.$.ajax(ko.utils.extend(params, options));
+    return $.ajax(ko.utils.extend(params, options));
   };
