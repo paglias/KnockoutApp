@@ -29,7 +29,7 @@ module.exports = function(grunt) {
       build: {
         files:{
           'knockout.app.min.js': ['knockout.app.js']
-        } 
+        }
       }
     },
 
