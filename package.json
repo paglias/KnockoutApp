@@ -1,9 +1,12 @@
 {
   "name": "KnockoutApp",
   "description": "A small framework for building KnockoutJS apps",
-  "url": "http://paglias.net/KnockoutApp",
+  "url": "https://github.com/paglias/KnockoutApp",
   "author": "Matteo Pagliazzi <matteopagliazzi@gmail.com>",
   "version": "0.2.0",
+  "license": "MIT",
+  "main": "knockout.app.js",
+  "keywords" : ["model", "knockout", "knockoutjs", "knockoutapp", "browser", "collection", "controller", "client", "browser"],
   "repository": {
     "type": "git",
     "url": "https://github.com/paglias/KnockoutApp.git"
