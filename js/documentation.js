@@ -1,9 +1,10 @@
 $(function() {
 
   $("#toc").tocify({
-  	context: "#documentation",
+  	context: "#content",
   	selectors: "h1, h2, h3",
-  	scrollTo: "50" //dovrebbe essere solo per width maggiore 967px
+    //extendPageOffset: $(document).height(), //KEEP OR NOT?
+  	scrollTo: "10" //dovrebbe essere solo per width maggiore 967px e anche scrollin generale
   });
 
   $("#toc").find("li a").text(function(i, text){
@@ -11,4 +12,5 @@ $(function() {
   });
 
   prettyPrint();
+  window.scroll(0, 1);
 });

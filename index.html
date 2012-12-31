@@ -1,43 +1,80 @@
 ---
 layout: default
+title: Documentation
+js: [
+	//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js,
+	/libs/jquery-ui-1.9.2.custom.min.js,
+	/libs/jquery.tocify.js-1.1.0/jquery.tocify.min.js,
+	/libs/google-code-prettify/prettify.js,
+	/js/documentation.js
+]
+css: [
+	/libs/jquery.tocify.js-1.1.0/jquery.tocify.css,
+	/libs/google-code-prettify/prettify.bootstrap.css,
+	/css/style.css,
+]
 ---
-<div class="container">
 
-	<!-- Main hero unit for a primary marketing message or call to action -->
-	<div class="hero-unit">
-		<h1>KnockoutApp</h1>
-		<p>A small framework for building apps using KnockoutJS. It provide three main classes: Model, Collection and Sync for communicating with the server.</p>
-		<p>
-			<a class="btn btn-primary btn-large" href="/documentation">Download &raquo;</a>
-			<a class="btn btn-large" href="/documentation">View on Github &raquo;</a>
-		</p>
-	</div>
+<a href="https://github.com/you"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
-	<!-- Example row of columns -->
-	<div class="row">
-		<div class="span4">
-			<h2>Heading</h2>
-			<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-			<p><a class="btn" href="#">View details &raquo;</a></p>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div id="sidebar" class="span3">
+			<h1><a href="#">KnockoutApp</a></h1>
+			<div id="toc"></div>
 		</div>
+			<div id="content" class="span9 pull-right">
+				<section id="introduction">
+					{% include introduction.html %}
+				</section>
 
-		<div class="span4">
-			<h2>Heading</h2>
-			<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-			<p><a class="btn" href="#">View details &raquo;</a></p>
-	  </div>
+				<section id="model">
+					{% include documentation/model/index.html %}
+					{% include documentation/model/extend.html %}
+					{% include documentation/model/constructor-initialize.html %}
+					{% include documentation/model/idAttribute.html %}
+					{% include documentation/model/id.html %}
+					{% include documentation/model/attributes.html %}
+					{% include documentation/model/defaultAttributes.html %}
+					{% include documentation/model/collection.html %}
+					{% include documentation/model/sync.html %}
+					{% include documentation/model/url.html %}
+					{% include documentation/model/name.html %}
+					{% include documentation/model/isNew.html %}
+					{% include documentation/model/fetch.html %}
+					{% include documentation/model/save.html %}
+					{% include documentation/model/destroy.html %}
+					{% include documentation/model/toJSON.html %}
+				</section>
 
-		<div class="span4">
-			<h2>Heading</h2>
-			<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-			<p><a class="btn" href="#">View details &raquo;</a></p>
+				<section id="collection">
+					{% include documentation/collection/index.html %}
+					{% include documentation/collection/extend.html %}
+					{% include documentation/collection/constructor-initialize.html %}
+					{% include documentation/collection/model.html %}
+					{% include documentation/collection/models.html %}
+					{% include documentation/collection/sync.html %}
+					{% include documentation/collection/url.html %}
+					{% include documentation/collection/fetch.html %}
+					{% include documentation/collection/add.html %}
+					{% include documentation/collection/remove.html %}
+					{% include documentation/collection/find.html %}
+					{% include documentation/collection/where.html %}
+					{% include documentation/collection/toJSON.html %}
+				</section>
+
+				<section id="sync">
+					{% include documentation/sync.html %}
+				</section>
+
+				<section id="utils">
+					{% include documentation/utils/index.html %}
+					{% include documentation/utils/unwrapValue.html %}
+					{% include documentation/utils/extendObjKnockout.html %}
+					{% include documentation/utils/cloneObjKnockout.html %}
+					{% include documentation/utils/extendClass.html %}
+					{% include documentation/utils/isObservableArray.html %}
+				</section>
+			</div>
 		</div>
 	</div>
-
-	<hr>
-
-	<footer>
-		<p>&copy; Company 2012</p>
-	</footer>
-
-</div> <!-- /container -->
