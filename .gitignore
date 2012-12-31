@@ -1,7 +1,2 @@
-KnockoutApp.sublime-project
-KnockoutApp.sublime-workspace
 TODO
-project_files/*
 node_modules/*
-_site/*
-_config.yml
