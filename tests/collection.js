@@ -1,13 +1,17 @@
 module("Collection");
 
 test( "model reference", function(){
-  var model = KnockoutApp.Model.extend({
+  var Model = KnockoutApp.Model.extend({
     baseUrl: "/tasks"
   });
 
-  var coll = new KnockoutApp.Collection(model);
+  var Collection = KnockoutApp.Collection.extend({
+    model: Model
+  });
 
-  equal(coll.model, model);
+  var coll = new Collection();
+
+  equal(coll.model, Model);
 });
 
 test( "models is an observable array", function(){
@@ -17,18 +21,19 @@ test( "models is an observable array", function(){
 });
 
 test( "initialize", function(){
-  var coll = KnockoutApp.Collection.extend({
-    initialize: function(model){
+  var Model = KnockoutApp.Model.extend({
+    name: "my model"
+  });
+
+  var Collection = KnockoutApp.Collection.extend({
+    model: Model,
+    initialize: function(){
       this.property = "initialized with " + this.model;
     }
   });
 
-  var model = KnockoutApp.Model.extend({
-    name: "my model"
-  });
-
-  var instance = new coll(model);
-  equal( instance.property, "initialized with " + model );
+  var instance = new Collection();
+  equal( instance.property, "initialized with " + Model );
 });
 
 test( "sync", function(){
@@ -38,25 +43,26 @@ test( "sync", function(){
     }
   });
 
-  var instance = new coll(KnockoutApp.Model);
+  var instance = new coll();
 
   //Check that collection.sync can be overriden
   equal(instance.sync(), "sync overriden!");
 });
 
 asyncTest( "fetch", function(){
-  var coll = KnockoutApp.Collection.extend({
-    url: "/taskslist"
-  });
-
-  var model = KnockoutApp.Model.extend({
-    defaultAttributes: {
+  var Model = KnockoutApp.Model.extend({
+    defaults: {
       name: ko.observable("a task"),
       done: ko.observable(false)
     }
   });
 
-  var instance = new coll(model);
+  var coll = KnockoutApp.Collection.extend({
+    url: "/taskslist",
+    model: Model
+  });
+
+  var instance = new coll();
 
   var ajax = $.mockjax({
     url: '/taskslist',
@@ -86,18 +92,19 @@ asyncTest( "fetch", function(){
 });
 
 asyncTest( "add", function(){
-  var coll = KnockoutApp.Collection.extend({
-    url: "/tasks"
-  });
-
-  var model = KnockoutApp.Model.extend({
-    defaultAttributes: {
+  var Model = KnockoutApp.Model.extend({
+    defaults: {
       name: ko.observable("a task"),
       done: ko.observable(false)
     }
   });
 
-  var instance = new coll(model);
+  var coll = KnockoutApp.Collection.extend({
+    url: "/tasks",
+    model: Model
+  });
+
+  var instance = new coll();
 
   var ajax = $.mockjax({
     type: 'POST',
@@ -111,19 +118,19 @@ asyncTest( "add", function(){
     }
   });
 
-  var model1 = new model({
+  var model1 = new Model({
     name: "single"
-  })
+  });
 
   instance.add(model1, true);
 
-  model2 = new model({
+  model2 = new Model({
     name: "multiple 1, attributes",
     done: true
   });
 
-  model3 = new model({
-    name: "multiple 2, instance",
+  model3 = new Model({
+    name: "multiple 2, instance"
   });
 
   instance.add([model2, model3]);
@@ -146,9 +153,11 @@ asyncTest( "add", function(){
 });
 
 asyncTest( "remove", function(){
-  var coll = new KnockoutApp.Collection(KnockoutApp.Model.extend({
-    baseUrl: "/tasks"
-  }));
+  var Collection = KnockoutApp.Collection.extend({
+    url: "/tasks"
+  });
+
+  var coll = new Collection();
 
   coll.add([{
     id: 1,
@@ -178,11 +187,12 @@ asyncTest( "remove", function(){
 
     $.mockjaxClear(ajax);
     start();
+
   }, 6);
 });
 
 test( "find", function(){
-  var coll = new KnockoutApp.Collection(KnockoutApp.Model);
+  var coll = new KnockoutApp.Collection();
 
   coll.add([
     {id: 1, name: "name1"},
@@ -199,7 +209,7 @@ test( "find", function(){
 });
 
 test( "where", function(){
-  var coll = new KnockoutApp.Collection(KnockoutApp.Model);
+  var coll = new KnockoutApp.Collection();
 
   coll.add([
     {id: 1, name: "name1", gender: "female"},
@@ -216,7 +226,7 @@ test( "where", function(){
 });
 
 test( "toJSON", function(){
-  var coll = new KnockoutApp.Collection(KnockoutApp.Model);
+  var coll = new KnockoutApp.Collection();
   coll.add([
     { name: ko.observable(1) },
     { name: 2 }
