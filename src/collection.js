@@ -1,15 +1,12 @@
-  // A collection stores models in an arrayObservable and provide methods for adding, removing, fetching... models
-  var Collection = KnockoutApp.Collection = function(model){
-
-    // Set a reference to the model
-    this.model = model || KnockoutApp.Model; //use KnockoutApp.Model or model??
+  // A collection stores models in an arrayObservable and provide methods to modify it
+  var Collection = KnockoutApp.Collection = function(){
 
     // Create an array observable to store all the models
     this.models = ko.observableArray();
 
-    // Instead of overriding the function constructor use the initialize function to execute custom code on collection creation
-    // Knockout's observable properties can't be defined in the class prototype
-    // so this is the perfect place to use them.
+    // Instead of overriding the function constructor use the initialize function to execute custom code on model creation
+    // Knockout's observable properties can't be defined as prototype properties
+    // so this is the perfect place to define them
     if(this.initialize) this.initialize.apply(this, arguments);
 
   };
@@ -17,34 +14,16 @@
   // Extend Collection's prototype
   ko.utils.extend(Collection.prototype, {
 
-    // A reference to KnockoutApp.Sync and overridable
+    // A reference to the model class, by default *KnockoutApp.Model*
+    model: Model,
+
+    // by default uses KnockoutApp.Sync as sync method, can be overriden
     sync: function(){
       return KnockoutApp.Sync.apply(this, arguments);
     },
 
-    // Fetch the models on the server and add them to the collection, this.url must be defined either as a string or a function
-    // Options for the Ajax call can be passed as a parameter
-    fetch: function(_options){
-      var self = this, //collection
-          options = _options || {},
-          success = options.success; //custome success passed in _options
-
-      options.success = function(data){
-        var toAdd = [];
-
-        for(var model in data){
-          toAdd.push(data[model]);
-        }
-
-        if(toAdd.length > 0) self.add(toAdd);
-        if(success) success(self, data);
-      };
-
-      return this.sync.call(this, 'fetch', this, options);
-    },
-
     // Add one or more models to collection and optionally create them on the server setting the 'create' parameter to 'true'
-    // It will also add a reference to the collection inside each model
+    // It will also add a reference to the collection on each model
     add: function(model_s, create, options){
       var toAdd = model_s instanceof Array ? model_s : [model_s],
           self = this;
@@ -62,8 +41,30 @@
       });
     },
 
-    // Remove one or more models from the colection and destroy them on the server
+    // Fetch models from server and add them to the collection.
+    // Options for the sync method can be passed as an object
+    fetch: function(_options){
+      var self = this, //collection
+          options = _options || {},
+          success = options.success; //custom success function passed in _options
+
+      options.success = function(data){
+        var toAdd = [];
+
+        for(var model in data){
+          toAdd.push(data[model]);
+        }
+
+        if(toAdd.length > 0) self.add(toAdd);
+        if(success) success(self, data);
+      };
+
+      return this.sync.call(this, 'fetch', this, options);
+    },
+
+    // Remove one or more models from the colection and destroy them on the server if saved
     // It simply calls model.destroy() on each model is passed to it
+    // Options for the sync method can be passed as an object
     remove: function(model_s, options){
       var toRemove = model_s instanceof Array ? model_s : [model_s];
 
@@ -72,8 +73,11 @@
       });
     },
 
+    // Find a model in the collection, either an object of attributes or the model.id() value can be passed to it
+    // *collection.find(1)* or *collection.find({attr1: "value", attr2: "value"})*
     find: function(attrs){
       if(!attrs) return false;
+
       return ko.utils.arrayFirst(this.models(), function(model){
         if(typeof attrs !== 'object'){
           if(model.id() === attrs) return true;
@@ -91,6 +95,8 @@
       });
     },
 
+    // Returns an array of models which attributes match the one passed as parameter
+    // *collection.where({attr1: "value", attr2: "value"})*
     where: function(attrs){
       if(!attrs) return [];
       return ko.utils.arrayFilter(this.models(), function(model){
