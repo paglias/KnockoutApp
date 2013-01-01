@@ -1,41 +1,42 @@
-  // This is the base Model class in KnockoutApp
+  // Define the Model class
   var Model = KnockoutApp.Model = function(attributes, options){
 
-    // 'id' is an observable property, initially set to 'false'
+    // *id* is an observable property, initially set to *false*
     this.id = ko.observable(false);
 
-    // The model stores its data inside this object
+    // An object for storing model's attributes
     this.attributes = {};
 
-    // If an 'attributes' object is passed as a parameter:
+    // If an *attributes* object is passed as a parameter:
     if(attributes){
 
-      // In case it contains an 'id' (or the idAttribute property) property set **this.id()** value to it and delete it from the attributes object
+      // In case it contains the *idAttribute* property set *this.id()* value to it and delete it from the attributes object
       if(attributes[this.idAttribute]){
         this.id(attributes[this.idAttribute]);
         delete attributes[this.idAttribute];
       }
 
-      // Merge the attributes passed as parameters with the default attributes stored inside **this.defaultAttributes()**
+      // Merge the attributes passed as parameters with the default attributes set in *this.defaults*
       //
-      // Using **Utils.extendObjKnockout** ensured that observable properties inside *this.defaultAttributes()*
+      // *Utils.cloneObjKnockout* is used to clone an object containing observable properties
+      //
+      // *Utils.extendObjKnockout* ensures that observable properties inside *this.defaults*
       // are correctly set into *this.attributes*
-      var defaults = Utils.cloneObjKnockout(this.defaultAttributes);
+      var defaults = Utils.cloneObjKnockout(this.defaults);
       this.attributes = Utils.extendObjKnockout(defaults, attributes);
     }
 
-    // This function allows to be passed, as the second parameter, a reference to a **Collection**.
-    // In that case a reference to the collection is set as *this.collection*
+    // If *options.collection* has been passed as a prameter set *this.collection* to *options.collection*
     if(options && options.collection) this.collection = options.collection;
 
-    // Detect if the model has been created on the server by checking if the 'id' property is defined
+    // Detect if the model has been created on the server by checking if the 'id' property is set
     this.isNew = ko.computed(function(){
       return (this.id() === false) ? true : false;
     }, this);
 
     // Instead of overriding the function constructor use the initialize function to execute custom code on model creation
-    // Knockout's observable properties can't be defined in the class prototype
-    // so this is the perfect place to use them.
+    // Knockout's observable properties can't be defined as prototype properties
+    // so this is the perfect place to define them
     if(this.initialize) this.initialize.apply(this, arguments);
 
   };
@@ -44,39 +45,43 @@
   ko.utils.extend(Model.prototype, {
 
     // An object with the default attributes for the model
-    // It must be a function because no 'clone' method has been implemented so far, will be fixed in future versions
-    // Here you can also use observable properties.
-    defaultAttributes: {},
+    // Model's observable attributes  must be defined here
+    defaults: {},
 
+    // The property used as model's id, by default *id*
+    // It can be set to something different if the server use a different value for the id (for example when using MongoDB you may set it to *_id*)
     idAttribute: 'id',
 
-    // Uses this.collection.sync || KnockoutApp.Sync can be overriden
+    // Model's sync method: uses Collection's sync method if the model is stored in a collection, if it isn't use KnockoutApp.Sync
+    // Can be overriden with a custom method
     sync: function(){
       return ((this.collection && this.collection.sync) || KnockoutApp.Sync).apply(this, arguments);
     },
 
-    // Returns the model url on the server using the model's baseUrl or collection's url properties
+    // Returns the model url using model's baseUrl or collection's url properties. If they're both undefined, throw an error
+    // If model.id() is set add model.id() to the url
     url: function(){
       var base = Utils.unwrapValue(this, 'baseUrl') || (this.collection && Utils.unwrapValue(this.collection, 'url'));
+      if(typeof base === undefined) throw "Missing baseUrl or collection.url properties";
       if(this.isNew()) return base;
       return base + (base[base.length-1] === '/' ? '' : '/') + this.id();
     },
 
-    // Validation method, should return TRUE if the model is valid
+    // Validation method, should return TRUE if the model is valid, something else like an error message if it isn't
     validate: function(){
       return true;
     },
 
     // Fetch the model on the server and replace its attributes with the one fetched
-    // Options for the Ajax call can be passed as a parameter
+    // Options for the sync method can be passed as an object
     fetch: function(_options){
       var self = this, //model
           options = _options || {},
-          success = options.success; //custom success passed in _options
+          success = options.success; //custom success function passed in _options
 
       options.success = function(data){
         delete data[self.idAttribute];
-        var defaults = Utils.cloneObjKnockout(self.defaultAttributes);
+        var defaults = Utils.cloneObjKnockout(self.defaults);
         self.attributes = Utils.extendObjKnockout(defaults, data);
         if(success) success(self, data);
       };
@@ -84,15 +89,15 @@
       return this.sync.call(this, 'fetch', this, options);
     },
 
-    // Save the model on the server.
-    // If this.isNew() returns true it will be created, otherwise it will be updated
-    // Options for the Ajax call can be passed as a parameter
+    // Save the model on the server
+    // If model.isNew() returns true the model will be created, otherwise it will be updated
+    // Options for the sync method can be passed as an object
     save: function(_options){
       if(this.validate() !== true) return false;
 
       var self = this, //model
           options = _options || {},
-          success = options.success, //custome success passed in _options
+          success = options.success, //custom success function passed in _options
           method = this.isNew() ? 'create' : 'update';
 
       options.success = function(data){
@@ -104,11 +109,12 @@
     },
 
     // Destroy the model on the server and remove it from its collection (if exists)
-    // Options for the Ajax call can be passed as a parameter
+    // Options for the sync method can be passed as an object
+    // If you set *wait: true* in the options' object it will remove the model from the collection without waiting for the server response
     destroy: function(_options){
       var self = this, //model
           options = _options || {},
-          success = options.success; //custome success passed in _options
+          success = options.success; //custom success function passed in _options
 
       options.success = function(){
         if(self.collection){
@@ -133,7 +139,7 @@
       return xhr;
     },
 
-    // Used for serialization, returns an object that contains model's attributes and its id
+    // Used for serialization, returns an object that contains model's attributes and its idAttribute if set
     toJSON: function(){
       var obj = ko.toJS(this.attributes);
       if(this.id()) obj[this.idAttribute] = this.id();
