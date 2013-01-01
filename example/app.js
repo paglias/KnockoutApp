@@ -1,9 +1,10 @@
 (function(){
 
+  // Create a new model extending the base one
   var Task = KnockoutApp.Model.extend({
 
     // Define the default values for the model's attributes
-    defaultAttributes: {
+    defaults: {
       title: ko.observable("a task"),
       done: ko.observable(false)
     },
@@ -27,24 +28,30 @@
         }
       }, this);
 
+      // Is the model being edited?
       this.editing = ko.observable(false);
 
     },
 
+    // Change this.editing from false to true and vice versa
     edit: function(){
       this.editing(!this.editing());
     }
 
   });
 
-  //Extend the base collection
+  // Create a new collection extending the base one
   var TaskList = KnockoutApp.Collection.extend({
+
+    model: Task,
 
     sync: LocalStorageSync,
 
     initialize: function(){
+      // The tasks to show ('all', 'done' or 'todo')
       this.show = ko.observable('all');
 
+      // Change the tasks show based on *this.show()* value
       this.toShow = ko.computed(function(){
         switch ( this.show() ) {
         case 'done':
@@ -58,9 +65,11 @@
         }
       }, this);
 
+      // The model being added
       this.current = ko.observable("");
     },
 
+    // Add a model from the value of *this.current()*
     addInput: function() {
       var current = this.current().trim();
       if (current) {
@@ -71,14 +80,17 @@
 
   });
 
-  //Create a new collection
-  var tasklist = new TaskList(Task);
+  // Create a new collection
+  var tasklist = new TaskList();
 
-  //Set the localstorage store and fetch tasks
+  // Set the localstorage store and fetch tasks
   tasklist.localStorageStore = new localStorageStore("knockout-app-todo-example");
+
+  // Fetch the tasks from localStorage
   tasklist.fetch();
 
   $(function() {
+    // Start the app
     ko.applyBindings(tasklist);
   });
 
