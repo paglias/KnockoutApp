@@ -3,7 +3,14 @@
   // **Node/CommonJS**
   if (typeof exports !== 'undefined') {
     // This is intended for use with [browserify](https://github.com/substack/node-browserify) or similar tools
-    factory(exports, require('knockout'), require('jquery'));
+    var target;
+    if(typeof module !== undefined){
+      target = module.exports;
+    }else{
+      target = exports;
+    }
+
+    factory(target, require('knockout'), require('jquery'));
 
   // **AMD**
   } else if (typeof define === 'function' && define.amd) {
