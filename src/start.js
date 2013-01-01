@@ -14,6 +14,7 @@
       // This allow for non-amd modules to work
       root.KnockoutApp = factory(exports, ko, $);
     });
+
   // **Browser global**
   } else {
     root.KnockoutApp = factory({}, root.ko, root.jQuery);
@@ -23,5 +24,5 @@
   // Check that KnockoutJS is loaded
   if(typeof ko === 'undefined') throw "KnockoutJS must be loaded to use KnockoutApp";
 
-  // KnockoutApp's version
+  // KnockoutApp's version, set by Grunt when KnockoutApp is built, the value is taken by *package.json*
   KnockoutApp.VERSION = "<%= pkg.version %>";

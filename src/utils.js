@@ -1,4 +1,4 @@
-  // An object that stores all utils used by KnockoutApp
+  // An object that stores all utils methods used by KnockoutApp
   var Utils = KnockoutApp.Utils = {
 
     // Check if an object is an observable array
@@ -31,12 +31,12 @@
       return destination;
     },
 
-    // Used to clone an object with knockout elements inside
+    // Used to clone an object with Knockout observable properties
     cloneObjKnockout: function(obj){
       if(ko.isWriteableObservable(obj)) return ko.observable(obj());
       if(obj === null || typeof obj !== 'object') return obj;
 
-      var temp = obj.constructor(); // give temp the original obj's constructor
+      var temp = obj.constructor();
       for (var key in obj) {
         temp[key] = Utils.cloneObjKnockout(obj[key]);
       }
@@ -81,7 +81,8 @@
       return typeof value === 'function' ? value.call(object) : value;
     },
 
-    // Errors wrapper, for now it simply log in the console everything is passed as a parameter to it ex. wrapError("an error occurred")
+    // Errors wrapper, for now it simply log in the console everything is passed as a parameter to it
+    // wrapError("an error occurred")
     wrapError: function(){
       var args = Array.prototype.slice.call(arguments);
       console.log("Error ", args);
