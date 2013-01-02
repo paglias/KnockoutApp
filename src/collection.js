@@ -41,6 +41,15 @@
       });
     },
 
+    // Empty the collection by removing all it's models and the reference to the collection from them
+    reset: function(){
+      ko.utils.arrayForEach(this.models(), function(model){
+        model.collection = undefined;
+      });
+
+      this.models([]);
+    },
+
     // Fetch models from server and add them to the collection.
     // Options for the sync method can be passed as an object
     fetch: function(_options){
@@ -55,6 +64,7 @@
           toAdd.push(data[model]);
         }
 
+        self.models([]); //reset the collection
         if(toAdd.length > 0) self.add(toAdd);
         if(success) success(self, data);
       };

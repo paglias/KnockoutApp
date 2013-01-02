@@ -64,6 +64,10 @@ asyncTest( "fetch", function(){
 
   var instance = new coll();
 
+  instance.add({id: 1});
+
+  equal(instance.models().length, 1);
+
   var ajax = $.mockjax({
     url: '/taskslist',
     responseTime: 5,
@@ -189,6 +193,31 @@ asyncTest( "remove", function(){
     start();
 
   }, 6);
+});
+
+test( "reset", function(){
+  var coll = new KnockoutApp.Collection();
+  var model4 = new KnockoutApp.Model({
+    id: 4
+  });
+
+  coll.add([{
+    id: 1
+  },{
+    id: 2
+  },{
+    id: 3
+  }]);
+
+  coll.add(model4)
+
+  equal(coll.models().length, 4);
+  equal(model4.collection, coll);
+
+  coll.reset();
+
+  equal(coll.models().length, 0);
+  equal(model4.collection, undefined);
 });
 
 test( "find", function(){
