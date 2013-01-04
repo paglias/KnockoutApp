@@ -46,29 +46,27 @@ module.exports = function(grunt) {
 
     qunit: {
       all: 'http://localhost:8000/tests/index.html'
-    }
+    },
 
-    /*docco: {
+    docco: {
       build: {
-        src: 'knockout.app.js',
-        options: {
-          output: 'annotated-source-code'
-        }
+        src: ['knockout.app.js', 'example/app.js'],
+        dest: 'annotated-source-code/'
       }
-    },*/
+    },
 
   });
 
   // Load tasks
-  //grunt.loadNpmTasks('grunt-docco');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-docco');
 
   // Register tasks.
-  grunt.registerTask('build', ['concat', 'uglify']);
+  grunt.registerTask('build', ['concat', 'uglify', 'docco']);
   grunt.registerTask('run', ['build', 'connect:server', 'qunit', 'watch']);
 
 };
