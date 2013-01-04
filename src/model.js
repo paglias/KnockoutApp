@@ -1,3 +1,4 @@
+  // ## KnockoutApp.Model
   // Define the Model class
   var Model = KnockoutApp.Model = function(attributes, options){
 

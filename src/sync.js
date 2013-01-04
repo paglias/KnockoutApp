@@ -1,3 +1,4 @@
+  // ## KnockoutApp.Sync
   // Used to sync models to the server, it can be overriden to support, for example, HTML5 localStorage
   // Requires two parameters:
   //

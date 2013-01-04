@@ -1,3 +1,4 @@
+  // ## KnockoutApp.Utils
   // An object that stores all utils methods used by KnockoutApp
   var Utils = KnockoutApp.Utils = {
 
@@ -79,13 +80,6 @@
       if (object === null) return null;
       var value = object[property];
       return typeof value === 'function' ? value.call(object) : value;
-    },
-
-    // Errors wrapper, for now it simply log in the console everything is passed as a parameter to it
-    // wrapError("an error occurred")
-    wrapError: function(){
-      var args = Array.prototype.slice.call(arguments);
-      console.log("Error ", args);
     }
 
   };

@@ -9,3 +9,5 @@ This is a small list of guidelines for contributing to the project:
 -Include tests when adding a new feature
 
 -Do not include the rebuilt version of knockout.app.js and knockout.app.min.js or the updated documented source code, they're only updated when a new version is published
+
+For instruction on how to build KnockoutApp see http://paglias.net/KnockoutApp/#Contributing

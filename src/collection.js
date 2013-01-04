@@ -1,3 +1,4 @@
+  // ## KnockoutApp.Collection
   // A collection stores models in an arrayObservable and provide methods to modify it
   var Collection = KnockoutApp.Collection = function(){
 
