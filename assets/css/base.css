@@ -1,0 +1,64 @@
+#github-ribbon img{
+  position: fixed;
+  top: 0;
+  right: 0;
+  border: 0;
+}
+
+.container-fluid{
+  padding-left: 0px;
+}
+
+.navbar .container-fluid{
+  padding-left: 20px;
+}
+
+#sidebar{
+  position: fixed;
+  top: 0;
+  overflow: auto;
+  height: 100%;
+  border-right: 1px solid #ccc;
+  background: #e5e5e5;
+  box-shadow: inset -5px 0px 23px 0px #CCCCCC;
+  -webkit-box-shadow: inset -5px 0px 23px 0px #CCCCCC;
+  -moz-box-shadow: inset -5px 0px 23px 0px #CCCCCC;
+  -o-box-shadow: inset -5px 0px 23px 0px #CCCCCC;
+}
+
+#sidebar h1{
+  margin-top: 20px;
+  padding-left: 25px;
+  margin-bottom: 20px;
+}
+
+#sidebar h1 a{
+  color: #333;
+  text-decoration: none;
+}
+
+#toc {
+  position: relative;
+  border: none;
+  width: 100%;
+  margin-left: 0px;
+}
+
+#toc > ul:last-child{
+}
+
+#toc a{
+  padding-left: 15px;
+}
+
+@media (max-width: 767px) {
+  #sidebar {
+    position: relative;
+    width: 100%;
+    margin: 0px 0px 20px 0px;
+  }
+}
+
+h2.page-header, h3.page-header{
+  margin-bottom: 20px;
+}

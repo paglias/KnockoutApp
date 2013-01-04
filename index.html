@@ -1,80 +1,92 @@
 ---
-layout: default
-title: Documentation
-js: [
-	//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js,
-	/libs/jquery-ui-1.9.2.custom.min.js,
-	/libs/jquery.tocify.js-1.1.0/jquery.tocify.min.js,
-	/libs/google-code-prettify/prettify.js,
-	/js/documentation.js
-]
-css: [
-	/libs/jquery.tocify.js-1.1.0/jquery.tocify.css,
-	/libs/google-code-prettify/prettify.bootstrap.css,
-	/css/style.css,
-]
 ---
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KnockoutApp</title>
 
-<a href="https://github.com/you"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap-responsive.min.css" /><!--ORNOT -->
+  <link rel="stylesheet" type="text/css" href="/libs/jquery.tocify.js-1.2.0/jquery.tocify.min.css" />
+  <link rel="stylesheet" type="text/css" href="/libs/prettify.bootstrap.css" />
 
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div id="sidebar" class="span3">
-			<h1><a href="#">KnockoutApp</a></h1>
-			<div id="toc"></div>
-		</div>
-			<div id="content" class="span9 pull-right">
-				<section id="introduction">
-					{% include introduction.html %}
-				</section>
+  <link rel="stylesheet" type="text/css" href="assets/css/base.css" />
 
-				<section id="model">
-					{% include documentation/model/index.html %}
-					{% include documentation/model/extend.html %}
-					{% include documentation/model/constructor-initialize.html %}
-					{% include documentation/model/idAttribute.html %}
-					{% include documentation/model/id.html %}
-					{% include documentation/model/attributes.html %}
-					{% include documentation/model/defaultAttributes.html %}
-					{% include documentation/model/collection.html %}
-					{% include documentation/model/sync.html %}
-					{% include documentation/model/url.html %}
-					{% include documentation/model/name.html %}
-					{% include documentation/model/isNew.html %}
-					{% include documentation/model/fetch.html %}
-					{% include documentation/model/save.html %}
-					{% include documentation/model/destroy.html %}
-					{% include documentation/model/toJSON.html %}
-				</section>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script type="text/javascript" src="/libs/jquery-ui-1.9.2.custom.min.js"></script>
+  <script type="text/javascript" src="/libs/jquery.tocify.js-1.2.0/jquery.tocify.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script> <!-- OR nOT -->
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
 
-				<section id="collection">
-					{% include documentation/collection/index.html %}
-					{% include documentation/collection/extend.html %}
-					{% include documentation/collection/constructor-initialize.html %}
-					{% include documentation/collection/model.html %}
-					{% include documentation/collection/models.html %}
-					{% include documentation/collection/sync.html %}
-					{% include documentation/collection/url.html %}
-					{% include documentation/collection/fetch.html %}
-					{% include documentation/collection/add.html %}
-					{% include documentation/collection/remove.html %}
-					{% include documentation/collection/find.html %}
-					{% include documentation/collection/where.html %}
-					{% include documentation/collection/toJSON.html %}
-				</section>
+  <script type="text/javascript" src="assets/js/toc.js"></script>
+</head>
 
-				<section id="sync">
-					{% include documentation/sync.html %}
-				</section>
+<body>
 
-				<section id="utils">
-					{% include documentation/utils/index.html %}
-					{% include documentation/utils/unwrapValue.html %}
-					{% include documentation/utils/extendObjKnockout.html %}
-					{% include documentation/utils/cloneObjKnockout.html %}
-					{% include documentation/utils/extendClass.html %}
-					{% include documentation/utils/isObservableArray.html %}
-				</section>
-			</div>
-		</div>
-	</div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div id="sidebar" class="span3">
+        <h1><a href="#">KnockoutApp</a></h1>
+        <div id="toc"></div>
+      </div>
+      <div id="content" class="span9 pull-right">
+        <section id="introduction">
+          {% capture introduction %}{% include introduction.md %}{% endcapture %} {{ introduction | markdownify }}
+          {% include download.html %}
+          {% capture gettingstarted %}{% include getting-started.md %}{% endcapture %} {{ gettingstarted | markdownify }}
+        </section>
+
+        <section id="documentation">
+          {% capture index %}{% include model/index.md %}{% endcapture %} {{ index | markdownify }}
+          {% capture extend %}{% include model/extend.md %}{% endcapture %} {{ extend | markdownify }}
+          {% capture constructorinitialize %}{% include model/constructor-initialize.md %}{% endcapture %} {{ constructorinitialize | markdownify }}
+          {% capture attributes %}{% include model/attributes.md %}{% endcapture %} {{ attributes | markdownify }}
+          {% capture defaults %}{% include model/defaults.md %}{% endcapture %} {{ defaults | markdownify }}
+          {% capture id %}{% include model/id.md %}{% endcapture %} {{ id | markdownify }}
+          {% capture idAttribute %}{% include model/idAttribute.md %}{% endcapture %} {{ idAttribute | markdownify }}
+          {% capture isNew %}{% include model/isNew.md %}{% endcapture %} {{ isNew | markdownify }}
+          {% capture collection %}{% include model/collection.md %}{% endcapture %} {{ collection | markdownify }}
+          {% capture sync %}{% include model/sync.md %}{% endcapture %} {{ sync | markdownify }}
+          {% capture url %}{% include model/url.md %}{% endcapture %} {{ url | markdownify }}
+          {% capture name %}{% include model/name.md %}{% endcapture %} {{ name | markdownify }}
+          {% capture validate %}{% include model/validate.md %}{% endcapture %} {{ validate | markdownify }}
+          {% capture fetch %}{% include model/fetch.md %}{% endcapture %} {{ fetch | markdownify }}
+          {% capture save %}{% include model/save.md %}{% endcapture %} {{ save | markdownify }}
+          {% capture destroy %}{% include model/destroy.md %}{% endcapture %} {{ destroy | markdownify }}
+          {% capture toJSON %}{% include model/toJSON.md %}{% endcapture %} {{ toJSON | markdownify }}
+
+          {% capture index %}{% include collection/index.md %} {% endcapture %} {{ index | markdownify }}
+          {% capture extend %}{% include collection/extend.md %} {% endcapture %} {{ extend | markdownify }}
+          {% capture constructorinitialize %}{% include collection/constructor-initialize.md %} {% endcapture %} {{ constructorinitialize | markdownify }}
+          {% capture model %}{% include collection/model.md %} {% endcapture %} {{ model | markdownify }}
+          {% capture models %}{% include collection/models.md %} {% endcapture %} {{ models | markdownify }}
+          {% capture sync %}{% include collection/sync.md %} {% endcapture %} {{ sync | markdownify }}
+          {% capture url %}{% include collection/url.md %} {% endcapture %} {{ url | markdownify }}
+          {% capture fetch %}{% include collection/fetch.md %} {% endcapture %} {{ fetch | markdownify }}
+          {% capture add %}{% include collection/add.md %} {% endcapture %} {{ add | markdownify }}
+          {% capture remove %}{% include collection/remove.md %} {% endcapture %} {{ remove | markdownify }}
+          {% capture reset %}{% include collection/reset.md %} {% endcapture %} {{ reset | markdownify }}
+          {% capture find %}{% include collection/find.md %} {% endcapture %} {{ find | markdownify }}
+          {% capture where %}{% include collection/where.md %} {% endcapture %} {{ where | markdownify }}
+          {% capture toJSON %}{% include collection/toJSON.md %} {% endcapture %} {{ toJSON | markdownify }}
+
+          {% capture sync %}{% include sync.md %} {% endcapture %} {{ sync | markdownify }}
+
+          {% capture index %}{% include utils/index.md %}{% endcapture %} {{ index | markdownify }}
+          {% capture unwrapValue %}{% include utils/unwrapValue.md %}{% endcapture %} {{ unwrapValue | markdownify }}
+          {% capture extendObjKnockout %}{% include utils/extendObjKnockout.md %}{% endcapture %} {{ extendObjKnockout | markdownify }}
+          {% capture cloneObjKnockout %}{% include utils/cloneObjKnockout.md %}{% endcapture %} {{ cloneObjKnockout | markdownify }}
+          {% capture extendClass %}{% include utils/extendClass.md %}{% endcapture %} {{ extendClass | markdownify }}
+          {% capture isObservableArray %}{% include utils/isObservableArray.md %}{% endcapture %} {{ isObservableArray | markdownify }}
+        </section>
+
+        <section id="more">
+          {% capture changelog %}{% include changelog.md %}{% endcapture %} {{ changelog | markdownify }}
+          {% capture contributing %}{% include contributing.md %}{% endcapture %} {{ contributing | markdownify }}
+        </section>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
