@@ -14,9 +14,11 @@ To build it:
 
 Now you can use:
 
-- <pre class="prettyprint">grunt build</pre> for building the files and generating the annotated source code
-- <pre class="prettyprint">grunt qunit</pre> to run tests
-- <pre class="prettyprint">grunt run</pre> to start a webserver at http://localhost:8000 and rebuild/test every time a file change
-- <pre class="prettyprint">grunt connect:server:keepalive</pre> to start a webserver at http://localhost:8000 but don't rebuild/test anything
+<ul>
+ <li><pre class="prettyprint">grunt build</pre> for building the files and generating the annotated source code</li>
+ <li><pre class="prettyprint">grunt qunit</pre> to run tests</li>
+ <li><pre class="prettyprint">grunt run</pre> to start a webserver at http://localhost:8000 and rebuild/test every time a file change</li>
+ <li><pre class="prettyprint">grunt connect:server:keepalive</pre> to start a webserver at http://localhost:8000 but don't rebuild/test anything</li>
+</ul>
 
 On github the development happens on the `master` branch, so if you want to send some code send it there!
