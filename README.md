@@ -8,5 +8,5 @@ It's heavily inspired to [BackboneJS](http://backbonejs.org) and it's licensed u
 
 If you find any bug or have a feature request use [Github Issues](https://github.com/paglias/KnockoutApp/issues).
 
-Credits can be found in [CREDITS.md](CREDITS.md).
+Credits can be found in [CREDITS.md](https://github.com/paglias/KnockoutApp/blob/master/CREDITS.md).
 
