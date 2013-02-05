@@ -65,7 +65,7 @@
           toAdd.push(data[model]);
         }
 
-        self.models([]); //reset the collection
+        self.reset(); //reset the collection
         if(toAdd.length > 0) self.add(toAdd);
         if(success) success(self, data);
       };
