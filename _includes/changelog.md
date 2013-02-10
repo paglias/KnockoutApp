@@ -1,5 +1,9 @@
 <h1 class="page-header">Changelog</h1>
 
+## 0.2.2
+
+- fixed bugs with the new build process
+
 ## 0.2.1
 
 - `collection.fetch` uses `collection.reset`
