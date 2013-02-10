@@ -1,4 +1,4 @@
-/*! Knockout App - v0.2.2 - 2013-02-10
+/*! Knockout App - v0.2.3 - 2013-02-10
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2013 Matteo Pagliazzi; Licensed MIT */
 
@@ -36,7 +36,7 @@
   if(typeof ko === 'undefined') throw "KnockoutJS must be loaded to use KnockoutApp";
 
   // KnockoutApp's version, set by Grunt when KnockoutApp is built, the value is taken by *package.json*
-  KnockoutApp.VERSION = "0.2.2";
+  KnockoutApp.VERSION = "0.2.3";
 
   // ## KnockoutApp.Utils
   // An object that stores all utils methods used by KnockoutApp
@@ -435,11 +435,6 @@
         options = _options || {};
 
     params.dataType = 'json';
-
-    // On error response calls KnockoutApp.Utils.wrapError
-    params.error = function(){
-      KnockoutApp.Utils.wrapError(arguments);
-    };
 
     //Get the url of the model/collection (model.url or model.url())
     params.url = Utils.unwrapValue(model, 'url');

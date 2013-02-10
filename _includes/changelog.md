@@ -1,5 +1,10 @@
 <h1 class="page-header">Changelog</h1>
 
+## 0.2.3
+
+- fixed integration with Travis CI
+- tests updated to work with jQuery 1.9
+
 ## 0.2.2
 
 - fixed bugs with the new build process

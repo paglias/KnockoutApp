@@ -251,6 +251,7 @@ asyncTest( "update (save)", function(){
     url: '/tasks/77',
     responseTime: 5,
     contentType: 'text/json',
+    responseText: {},
     data: { // check that the data sent is correct
       id: 77,
       name: "my task",
@@ -258,10 +259,11 @@ asyncTest( "update (save)", function(){
     }
   });
 
-  var result = false; // necessary to check the update has been successful
+  var result = false; // necessary to check that the update has been successful
 
   instance.save({
     success: function(data){
+      console.log("successful")
       result = true; // update successful
     }
   });
@@ -308,7 +310,7 @@ asyncTest( "destroy", function(){
   });
 
   var saved2 = new model({
-    id: 66
+    id: 67
   });
 
   coll.add([saved1, saved2]);
@@ -317,8 +319,9 @@ asyncTest( "destroy", function(){
 
   var ajax = $.mockjax({
     type: 'DELETE',
-    url: '/tasks/66',
+    url: '/tasks/*',
     responseTime: 5,
+    responseText: {},
     contentType: 'text/json'
   });
 
@@ -327,8 +330,8 @@ asyncTest( "destroy", function(){
 
   setTimeout(function(){
     strictEqual(saved1.collection, undefined);
-
     strictEqual(saved2.collection, undefined);
+
     equal(coll.models().length, 0);
 
     $.mockjaxClear(ajax);
