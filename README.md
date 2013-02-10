@@ -1,6 +1,6 @@
 **KnockoutApp** is a framework for building apps using [KnockoutJS](http://knockoutjs.com/).
 
-The last version released is 0.2.1
+The last version released is 0.2.2
 
 **Documentation**, **downloads**, how to **contribute**, **tests**, **example application** and more can be found on the [website](http://paglias.net/KnockoutApp).
 

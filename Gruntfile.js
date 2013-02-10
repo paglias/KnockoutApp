@@ -72,7 +72,7 @@ module.exports = function(grunt) {
       publish: {
         cmd: function(){
           var version = this.config.get('pkg').version,
-              files = 'build/knockout.app.js build/knockout.app.js',
+              files = 'build/knockout.app.js build/knockout.app.min.js',
               build = 'git add -f ' + files,
               commit = 'git commit -m\'publishing v' + version + '\''
               tag = 'git tag ' + version,
