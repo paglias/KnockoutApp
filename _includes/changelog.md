@@ -1,6 +1,6 @@
 <h1 class="page-header">Changelog</h1>
 
-## 0.2.1, 0.2.2, 0.2.3, 0.2.4
+## 0.2.1, 0.2.2, 0.2.3, 0.2.4, 0.2.5
 
 - new build process
 
