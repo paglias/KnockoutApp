@@ -17,11 +17,6 @@
 
     params.dataType = 'json';
 
-    // On error response calls KnockoutApp.Utils.wrapError
-    params.error = function(){
-      KnockoutApp.Utils.wrapError(arguments);
-    };
-
     //Get the url of the model/collection (model.url or model.url())
     params.url = Utils.unwrapValue(model, 'url');
 
