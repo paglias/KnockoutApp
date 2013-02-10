@@ -3,7 +3,7 @@
   "description": "A small framework for building KnockoutJS apps",
   "url": "https://github.com/paglias/KnockoutApp",
   "author": "Matteo Pagliazzi <matteopagliazzi@gmail.com>",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "license": "MIT",
   "main": "build/knockout.app.js",
   "scripts": {
