@@ -18,8 +18,8 @@ module.exports = function(grunt) {
       },
       build: {
         src: ['src/start.js', 'src/utils.js', 'src/model.js', 'src/collection.js', 'src/sync.js', 'src/end.js'],
-        dest: 'knockout.app.js'
-      },
+        dest: 'build/knockout.app.js'
+      }
     },
 
     uglify: {
@@ -27,14 +27,23 @@ module.exports = function(grunt) {
         banner: '<%= banner %>'
       },
       build: {
-        files:{
-          'knockout.app.min.js': ['knockout.app.js']
+        files: {
+          'build/knockout.app.min.js': ['build/knockout.app.js']
         }
       }
     },
 
+    qunit: {
+      options: {
+        urls: [
+          'http://localhost:8000/tests/index.html'
+        ]
+      },
+      all: [] // this is needed otherwise no test would run
+    },
+
     connect: {
-      server: { },
+      server: {}, // keep the server running using 'grunt connect:server:keepalive'
     },
 
     watch: {
@@ -44,18 +53,52 @@ module.exports = function(grunt) {
       }
     },
 
-    qunit: {
-      all: 'http://localhost:8000/tests/index.html'
-    },
-
-    docco: {
-      build: {
-        src: ['knockout.app.js', 'example/app.js'],
-        dest: 'annotated-source-code/'
+    copy: {
+      publish: {
+        files: [
+          {src: ['tests/**', 'example/**', 'build/**'], dest: '_site/'}
+        ]
       }
     },
 
+    docco: {
+      publish: {
+        src: ['knockout.app.js', 'example/app.js'],
+        dest: '_site/annotated-source-code/'
+      }
+    },
+
+    exec:{
+      publish: {
+        cmd: function(){
+          var version = this.config.get('pkg').version,
+              files = 'build/knockout.app.js build/knockout.app.js',
+              build = 'git add -f ' + files,
+              commit = 'git commit -m\'publishing v' + version + '\''
+              tag = 'git tag ' + version,
+              push = 'git push origin master && git push --tags',
+              publish = 'npm publish',
+              back = 'git rm ' + files + ' && git commit -am\'switching back to development\' && git push origin master',
+              // Site
+              cdSite = 'cd _site'
+              commitSite = 'git add -A && git commit -m\'publishing site for v' + version + '\' && git tag gh-pages-' + version,
+              pushSite = 'git push origin gh-pages && git push --tags',
+              backSite = 'cd ..'
+              site = cdSite + ' && ' + commitSite + ' && ' + pushSite + ' && ' + backSite;
+          console.log(build + ' && ' + commit + ' && ' + tag + ' && ' + push + ' && ' + publish + ' && ' + back + ' && ' + site);
+          return 'echo "completed"';
+        }
+      }
+    }
+
   });
+
+  // Register tasks.
+  grunt.registerTask('build', ['concat:build', 'uglify:build']);
+  grunt.registerTask('test', ['build', 'connect:server', 'qunit']);
+  grunt.registerTask('run', ['test', 'watch']);
+
+  grunt.registerTask('publish', ['test', 'copy:publish', 'docco:publish', 'exec:publish']); //used to publish a new version of KnockoutApp
 
   // Load tasks
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -63,10 +106,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-docco');
-
-  // Register tasks.
-  grunt.registerTask('build', ['concat', 'uglify', 'docco']);
-  grunt.registerTask('run', ['build', 'connect:server', 'qunit', 'watch']);
+  grunt.loadNpmTasks('grunt-exec');
 
 };

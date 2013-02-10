@@ -1,2 +1,9 @@
-TODO
 node_modules/*
+_site/*
+project_files/*
+build/*
+
+TODO
+changelog.txt
+knockout.app.sublime-project
+knockout.app.sublime-workspace
