@@ -1,3 +1,7 @@
+/*! Knockout App - v0.2.1 - 2013-02-10
+* https://github.com/paglias/KnockoutApp
+* Copyright (c) 2013 Matteo Pagliazzi; Licensed MIT */
+
 // Set up KnockoutApp appropriately for the environment
 (function(root, factory) {
   // **Node/CommonJS**
@@ -32,7 +36,7 @@
   if(typeof ko === 'undefined') throw "KnockoutJS must be loaded to use KnockoutApp";
 
   // KnockoutApp's version, set by Grunt when KnockoutApp is built, the value is taken by *package.json*
-  KnockoutApp.VERSION = "<%= pkg.version %>";
+  KnockoutApp.VERSION = "0.2.1";
 
   // ## KnockoutApp.Utils
   // An object that stores all utils methods used by KnockoutApp

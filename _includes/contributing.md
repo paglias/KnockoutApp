@@ -10,15 +10,16 @@ To build it:
 
 1. Download source from github
 2. Open the terminal in the directory where you have downloaded the code
-3. Install dependencies with <pre class="prettyprint">npm install .</pre> (remember to install grunt before, see the migration guide for Grunt 0.4 linked above)
+3. Install dependencies with <pre class="prettyprint">npm install</pre> (remember to install `grunt-cli` globally before, see the migration guide for Grunt 0.4 linked above)
 
-Now you can use:
+Now you can run:
 
 <ul>
- <li><pre class="prettyprint">grunt build</pre> for building the files and generating the annotated source code</li>
- <li><pre class="prettyprint">grunt qunit</pre> to run tests</li>
+ <li><pre class="prettyprint">grunt build</pre> to build KnockoutApp into /build</li>
+ <li><pre class="prettyprint">grunt test</pre> to run tests</li>
  <li><pre class="prettyprint">grunt run</pre> to start a webserver at http://localhost:8000 and rebuild/test every time a file change</li>
  <li><pre class="prettyprint">grunt connect:server:keepalive</pre> to start a webserver at http://localhost:8000 but don't rebuild/test anything</li>
+ <li><pre class="prettyprint">grunt publish</pre> which I use to publish a new version of KnockoutApp</li>
 </ul>
 
 On github the development happens on the `master` branch, so if you want to send some code send it there!
