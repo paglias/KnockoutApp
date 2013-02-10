@@ -73,20 +73,17 @@ module.exports = function(grunt) {
       publish: {
         cmd: function(){
           var version = this.config.get('pkg').version,
-              files = 'build/knockout.app.js build/knockout.app.min.js',
-              build = 'git add -f ' + files,
-              commit = 'git commit -m\'publishing v' + version + '\'',
+              commit = 'git commit -am\'publishing v' + version + '\'',
               tag = 'git tag ' + version,
               push = 'git push origin master && git push --tags',
               publish = 'npm publish',
-              back = 'git rm ' + files + ' && git commit -am\'switching back to development\' && git push origin master',
               // Site
               cdSite = 'cd _site',
               commitSite = 'git add -A && git commit -m\'publishing site for v' + version + '\' && git tag gh-pages-' + version,
               pushSite = 'git push origin gh-pages && git push --tags',
               backSite = 'cd ..',
               site = cdSite + ' && ' + commitSite + ' && ' + pushSite + ' && ' + backSite;
-          return build + ' && ' + commit + ' && ' + tag + ' && ' + push + ' && ' + publish + ' && ' + back + ' && ' + site;
+          return commit + ' && ' + tag + ' && ' + push + ' && ' + publish + ' && ' + site;
         }
       }
     }
