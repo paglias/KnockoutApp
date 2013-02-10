@@ -85,8 +85,7 @@ module.exports = function(grunt) {
               pushSite = 'git push origin gh-pages && git push --tags',
               backSite = 'cd ..'
               site = cdSite + ' && ' + commitSite + ' && ' + pushSite + ' && ' + backSite;
-          console.log(build + ' && ' + commit + ' && ' + tag + ' && ' + push + ' && ' + publish + ' && ' + back + ' && ' + site);
-          return 'echo "completed"';
+          return build + ' && ' + commit + ' && ' + tag + ' && ' + push + ' && ' + publish + ' && ' + back + ' && ' + site;
         }
       }
     }
