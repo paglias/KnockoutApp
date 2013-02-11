@@ -1,9 +1,12 @@
   // ## KnockoutApp.Collection
   // A collection stores models in an arrayObservable and provide methods to modify it
-  var Collection = KnockoutApp.Collection = function(){
+  var Collection = KnockoutApp.Collection = function(model_s){
 
     // Create an array observable to store all the models
     this.models = ko.observableArray();
+
+    // If any model is passed to the constructor, add it
+    if(model_s) this.add(model_s);
 
     // Instead of overriding the function constructor use the initialize function to execute custom code on model creation
     // Knockout's observable properties can't be defined as prototype properties

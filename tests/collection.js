@@ -36,6 +36,12 @@ test( "initialize", function(){
   equal( instance.property, "initialized with " + Model );
 });
 
+test( "pass models to the constructor", function(){
+  var Collection = new KnockoutApp.Collection([{id: 1}, {id: 2}]);
+
+  equal(Collection.models().length, 2);
+});
+
 test( "sync", function(){
   var coll = KnockoutApp.Collection.extend({
     sync: function(){
@@ -209,7 +215,7 @@ test( "reset", function(){
     id: 3
   }]);
 
-  coll.add(model4)
+  coll.add(model4);
 
   equal(coll.models().length, 4);
   equal(model4.collection, coll);
