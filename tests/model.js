@@ -303,7 +303,7 @@ asyncTest( "destroy", function(){
 
   equal(notSaved.destroy(), false);
 
-  var coll = new KnockoutApp.Collection(model);
+  var coll = new KnockoutApp.Collection();
 
   var saved1 = new model({
     id: 66
