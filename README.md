@@ -1,3 +1,5 @@
+## Not developed anymore.
+
 **KnockoutApp** is a framework for building apps using [KnockoutJS](http://knockoutjs.com/).
 
 The last version released is 0.2.5
